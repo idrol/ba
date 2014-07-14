@@ -15,7 +15,9 @@ public class Main {
 	long lastFrame;
 	int fps;
 	long lastFPS;
+	static int deltaTime;
 	Player plr;
+	GameObject obj;
 
 	public void start() {
 		try {
@@ -30,14 +32,15 @@ public class Main {
 		getDelta();
 		lastFPS = getTime();
 		try {
-			plr = new Player(new Sprite("/res/images/character/char.png"));
+			plr = new Player(new Sprite("/res/images/character/char.png"), 30, 50);
+			obj = new GameObject(800, 10, new Sprite("/res/no_texture.png"), 0, 0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		while (!Display.isCloseRequested()) {
-			int delta = getDelta();
+			deltaTime = getDelta();
 			
-			update(delta);
+			update(deltaTime);
 			renderGL();
 
 			Display.update();
@@ -48,24 +51,15 @@ public class Main {
 	}
 	
 	public void update(int delta) {
-		rotation += 0.15f * delta;
 		
-		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) x -= 0.35f * delta;
-		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) x += 0.35f * delta;
+		for(GameObject obj: GameObject.objList){
+			obj.update();
+		}
 		
-		if (Keyboard.isKeyDown(Keyboard.KEY_UP)) y -= 0.35f * delta;
-		if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) y += 0.35f * delta;
-		
-		// keep quad on the screen
-		if (x < 0) x = 0;
-		if (x > 800) x = 800;
-		if (y < 0) y = 0;
-		if (y > 600) y = 600;
-		
-		updateFPS(); // update FPS Counter
+		updateFPS();
 	}
 	
-	public int getDelta() {
+	private int getDelta() {
 	    long time = getTime();
 	    int delta = (int) (time - lastFrame);
 	    lastFrame = time;
@@ -73,7 +67,13 @@ public class Main {
 	    return delta;
 	}
 	
-	public long getTime() {
+	public static int getDeltaTime() {
+		return deltaTime;
+	}
+	
+	
+	
+	public static long getTime() {
 	    return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
 	
@@ -108,7 +108,9 @@ public class Main {
 
 	public void renderGL() {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-		plr.render();
+		for(GameObject obj: GameObject.objList){
+			obj.render();
+		}
 	}
 	
 	public static void main(String[] argv) {
