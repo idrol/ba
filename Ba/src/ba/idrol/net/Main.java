@@ -1,5 +1,7 @@
 package ba.idrol.net;
 
+import java.io.IOException;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -13,6 +15,7 @@ public class Main {
 	long lastFrame;
 	int fps;
 	long lastFPS;
+	Player plr;
 
 	public void start() {
 		try {
@@ -26,7 +29,11 @@ public class Main {
 		initGL();
 		getDelta();
 		lastFPS = getTime();
-
+		try {
+			plr = new Player(new Sprite("/res/images/character/char.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		while (!Display.isCloseRequested()) {
 			int delta = getDelta();
 			
@@ -41,7 +48,6 @@ public class Main {
 	}
 	
 	public void update(int delta) {
-		// rotate quad
 		rotation += 0.15f * delta;
 		
 		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) x -= 0.35f * delta;
@@ -59,12 +65,6 @@ public class Main {
 		updateFPS(); // update FPS Counter
 	}
 	
-	/** 
-	 * Calculate how many milliseconds have passed 
-	 * since last frame.
-	 * 
-	 * @return milliseconds passed since last frame 
-	 */
 	public int getDelta() {
 	    long time = getTime();
 	    int delta = (int) (time - lastFrame);
@@ -73,18 +73,11 @@ public class Main {
 	    return delta;
 	}
 	
-	/**
-	 * Get the accurate system time
-	 * 
-	 * @return The system time in milliseconds
-	 */
 	public long getTime() {
 	    return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
 	
-	/**
-	 * Calculate the FPS and set it in the title bar
-	 */
+	
 	public void updateFPS() {
 		if (getTime() - lastFPS > 1000) {
 			Display.setTitle("FPS: " + fps);
@@ -95,6 +88,18 @@ public class Main {
 	}
 	
 	public void initGL() {
+		
+		GL11.glEnable(GL11.GL_TEXTURE_2D);               
+        
+		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);          
+        
+        	// enable alpha blending
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        
+        	GL11.glViewport(0,0,800,600);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 		GL11.glOrtho(0, 800, 0, 600, 1, -1);
@@ -102,29 +107,12 @@ public class Main {
 	}
 
 	public void renderGL() {
-		// Clear The Screen And The Depth Buffer
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-
-		// R,G,B,A Set The Color To Blue One Time Only
-		GL11.glColor3f(0.5f, 0.5f, 1.0f);
-
-		// draw quad
-		GL11.glPushMatrix();
-			GL11.glTranslatef(x, y, 0);
-			GL11.glRotatef(rotation, 0f, 0f, 1f);
-			GL11.glTranslatef(-x, -y, 0);
-			
-			GL11.glBegin(GL11.GL_QUADS);
-				GL11.glVertex2f(x - 50, y - 50);
-				GL11.glVertex2f(x + 50, y - 50);
-				GL11.glVertex2f(x + 50, y + 50);
-				GL11.glVertex2f(x - 50, y + 50);
-			GL11.glEnd();
-		GL11.glPopMatrix();
+		plr.render();
 	}
 	
 	public static void main(String[] argv) {
-		Main timerExample = new Main();
-		timerExample.start();
+		Main main = new Main();
+		main.start();
 	}
 }
