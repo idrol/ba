@@ -8,18 +8,10 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 public class Main {
-
-	/** position of quad */
 	float x = 400, y = 300;
-	/** angle of quad rotation */
 	float rotation = 0;
-	
-	/** time at last frame */
 	long lastFrame;
-	
-	/** frames per second */
 	int fps;
-	/** last fps time */
 	long lastFPS;
 
 	public void start() {
@@ -42,7 +34,7 @@ public class Main {
 			renderGL();
 
 			Display.update();
-			Display.sync(60); // cap fps to 60fps
+			Display.sync(60);
 		}
 
 		Display.destroy();
