@@ -1,6 +1,10 @@
-package ba.idrol.net;
+package ba.idrol.Game;
 
 import org.lwjgl.input.Keyboard;
+
+import ba.idrol.net.GameObject;
+import ba.idrol.net.Main;
+import ba.idrol.net.Sprite;
 
 public class Player extends GameObject{
 	

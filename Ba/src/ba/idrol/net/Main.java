@@ -9,15 +9,18 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import ba.idrol.Game.Game;
+import ba.idrol.Menu.Menu;
+import static org.lwjgl.opengl.GL11.*;
+
 public class Main {
-	float x = 400, y = 300;
-	float rotation = 0;
-	long lastFrame;
-	int fps;
-	long lastFPS;
+	private float x = 400, y = 300;
+	private float rotation = 0;
+	private long lastFrame;
+	private int fps;
+	private long lastFPS;
 	static int deltaTime;
-	Player plr;
-	GameObject obj;
+	public static GameComponent currentGameComponent;
 
 	public void start() {
 		try {
@@ -29,14 +32,11 @@ public class Main {
 		}
 
 		initGL();
+		Main.currentGameComponent = new Menu();
+		Main.currentGameComponent.loadObjects();
 		getDelta();
 		lastFPS = getTime();
-		try {
-			plr = new Player(new Sprite("/res/images/character/char.png"), 30, 50);
-			obj = new GameObject(800, 10, new Sprite("/res/no_texture.png"), 0, 0);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 		while (!Display.isCloseRequested()) {
 			deltaTime = getDelta();
 			
@@ -51,11 +51,7 @@ public class Main {
 	}
 	
 	public void update(int delta) {
-		
-		for(GameObject obj: GameObject.objList){
-			obj.update();
-		}
-		
+		Main.currentGameComponent.update(delta);
 		updateFPS();
 	}
 	
@@ -89,28 +85,20 @@ public class Main {
 	
 	public void initGL() {
 		
-		GL11.glEnable(GL11.GL_TEXTURE_2D);               
+		               
         
-		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);          
-        
-        	// enable alpha blending
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        
-        	GL11.glViewport(0,0,800,600);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
-		GL11.glOrtho(0, 800, 0, 600, 1, -1);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0, 800, 0, 600, 1, -1);
+		glMatrixMode(GL_MODELVIEW);
+		glEnable(GL_TEXTURE_2D);
 	}
 
 	public void renderGL() {
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-		for(GameObject obj: GameObject.objList){
-			obj.render();
-		}
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		Main.currentGameComponent.render();
 	}
 	
 	public static void main(String[] argv) {

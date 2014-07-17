@@ -15,14 +15,14 @@ public class GameObject {
 	protected float x, y;
 	protected Sprite texture;
 	
-	public static List<GameObject> objList = new ArrayList<GameObject>();
 	
 	private GameObject(int width, int height, float x, float y){
 		this.height = height;
 		this.width = width;
 		this.x = x;
 		this.y = y;
-		GameObject.objList.add(this);
+		Main.currentGameComponent.addGameObject(this);;
+		
 	}
 	public GameObject(int width, int height, Sprite sprite, float x, float y){
 		this(width, height, x, y);
@@ -32,7 +32,7 @@ public class GameObject {
 		this(sprite.getTexture().getTextureWidth(), sprite.getTexture().getTextureHeight(), sprite, 0, 0);
 	}
 	public GameObject(Sprite sprite, float x, float y){
-		this(sprite.getTexture().getTextureWidth(), sprite.getTexture().getTextureHeight(), sprite, x, y);
+		this((int)sprite.getTexture().getTextureWidth(), sprite.getTexture().getTextureHeight(), sprite, x, y);
 	}
 	protected float getTop(){
 		return this.y+this.height;
@@ -52,7 +52,7 @@ public class GameObject {
 		float oldy = this.y;
 		this.x += x;
 		this.y += y;
-		for(GameObject obj: GameObject.objList){
+		for(GameObject obj: Main.currentGameComponent.getGameObjectList()){
 			if(!obj.equals(this)){
 				if(this.x < obj.x + obj.width &&
 						   this.x + this.width > obj.x &&
@@ -68,7 +68,8 @@ public class GameObject {
 		
 	}
 	public void render(){
-		this.texture.bind();
+		this.texture.getTexture().bind();;
+		glPushMatrix();
 		glBegin(GL_QUADS);
 			glTexCoord2f(0, 1);
 			glVertex2f(this.x, this.y);
@@ -79,6 +80,17 @@ public class GameObject {
 			glTexCoord2f(0, 0);
 			glVertex2f(this.x, this.y+this.height);
 		glEnd();
+		glPopMatrix();
+		glColor3f(1,1,1);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glBegin(GL_QUADS);
+			glVertex2f(this.x, this.y);
+			glVertex2f(this.x+this.width, this.y);
+			glVertex2f(this.x+this.width, this.y+this.height);
+			glVertex2f(this.x, this.y+this.height);
+		glEnd();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		
 	}
 	
 	public void update(){
