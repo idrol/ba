@@ -14,7 +14,7 @@ public class Menu extends GameComponent {
 	@Override
 	public void loadObjects(){
 		try {
-			playBtn = new Play(new Sprite("/res/menu/play.png"), 300, 450);
+			playBtn = new Play(new Sprite("/res/menu/play.png"), 270, 400);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
