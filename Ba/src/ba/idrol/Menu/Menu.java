@@ -10,11 +10,13 @@ import ba.idrol.net.Sprite;
 public class Menu extends GameComponent {
 	
 	Play playBtn;
+	Exit exitBtn;
 	
 	@Override
 	public void loadObjects(){
 		try {
 			playBtn = new Play(new Sprite("/res/menu/play.png"), 270, 400);
+			exitBtn = new Exit(new Sprite("/res/menu/exit.png"), 270, 200);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
