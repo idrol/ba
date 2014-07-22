@@ -1,8 +1,5 @@
 package ba.idrol.Menu;
 
-import org.lwjgl.opengl.Display;
-
-import ba.idrol.Game.Game;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
 

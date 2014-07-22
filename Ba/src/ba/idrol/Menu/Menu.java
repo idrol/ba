@@ -1,10 +1,7 @@
 package ba.idrol.Menu;
 
-import java.io.IOException;
-
 import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;
-import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
 
 public class Menu extends GameComponent {

@@ -2,13 +2,6 @@ package ba.idrol.net;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Color;
-
 
 public class GameObject {
 	protected int width, height;

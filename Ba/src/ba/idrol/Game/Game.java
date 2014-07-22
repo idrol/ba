@@ -1,7 +1,5 @@
 package ba.idrol.Game;
 
-import java.io.IOException;
-
 import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Sprite;

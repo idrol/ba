@@ -1,15 +1,9 @@
 package ba.idrol.net;
 
-import java.io.IOException;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-
-import ba.idrol.Game.Game;
 import ba.idrol.Menu.Menu;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -20,8 +14,6 @@ public class Main {
 	public static final int WARNING = 2;
 	public static final int LOG = 0;
 	
-	private float x = 400, y = 300;
-	private float rotation = 0;
 	private long lastFrame;
 	private int fps;
 	private long lastFPS;
