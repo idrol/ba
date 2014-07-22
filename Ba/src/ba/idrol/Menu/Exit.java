@@ -14,7 +14,7 @@ public class Exit extends Button {
 	
 	@Override
 	protected void buttonClicked(){
-		Display.destroy();
+		Main.destroy(Main.SHUTDOWN); // Cleans game
 	}
 	
 }

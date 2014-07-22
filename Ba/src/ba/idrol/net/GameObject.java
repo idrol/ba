@@ -15,6 +15,12 @@ public class GameObject {
 	protected float x, y;
 	protected Sprite texture;
 	
+	protected static float GRAVITY = 0.04f;
+	protected static float TERMINAL_VELOCITY = 2f;
+	protected float vertical_speed = 0;
+	
+	protected boolean onGround = false;
+	protected boolean hasGravity = false;
 	
 	private GameObject(int width, int height, float x, float y){
 		this.height = height;
@@ -33,6 +39,10 @@ public class GameObject {
 	}
 	public GameObject(Sprite sprite, float x, float y){
 		this((int)sprite.getTexture().getTextureWidth(), sprite.getTexture().getTextureHeight(), sprite, x, y);
+	}
+	public GameObject enableGravity(){
+		this.hasGravity = true;
+		return this;
 	}
 	protected float getTop(){
 		return this.y+this.height;
@@ -93,7 +103,24 @@ public class GameObject {
 		
 	}
 	
+	public void fall(){
+		this.vertical_speed -= GRAVITY;
+		if(this.vertical_speed > TERMINAL_VELOCITY){
+			this.vertical_speed = TERMINAL_VELOCITY;
+		}
+		if(this.move(0, this.vertical_speed * Main.getDeltaTime())){
+			if(this.vertical_speed < 0){
+				this.onGround = true;
+			}
+			this.vertical_speed = 0;
+		}else{
+			this.onGround = false;
+		}
+	}
+	
 	public void update(){
-		
+		if(this.hasGravity){
+			this.fall();
+		}
 	}
 }

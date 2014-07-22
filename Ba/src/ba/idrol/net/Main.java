@@ -14,6 +14,12 @@ import ba.idrol.Menu.Menu;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Main {
+	
+	public static final int FATAL_ERROR = 1;
+	public static final int SHUTDOWN = 0;
+	public static final int WARNING = 2;
+	public static final int LOG = 0;
+	
 	private float x = 400, y = 300;
 	private float rotation = 0;
 	private long lastFrame;
@@ -44,7 +50,7 @@ public class Main {
 			renderGL();
 
 			Display.update();
-			Display.sync(60);
+			Display.sync(120);
 		}
 
 		Display.destroy();
@@ -65,6 +71,11 @@ public class Main {
 	
 	public static int getDeltaTime() {
 		return deltaTime;
+	}
+	
+	public static void destroy(int status){
+		Display.destroy();
+		System.exit(status);
 	}
 	
 	
@@ -104,5 +115,21 @@ public class Main {
 	public static void main(String[] argv) {
 		Main main = new Main();
 		main.start();
+	}
+
+	public static void log(int status, String msg) {
+		String prefix = "";
+		switch(status){
+		case Main.FATAL_ERROR:
+			prefix = "[FATAL]";
+			break;
+		case Main.WARNING:
+			prefix = "[WARNING]";
+			break;
+		case Main.LOG:
+			prefix = "[LOG]";
+			break;
+		}
+		System.out.println("[Client]"+prefix+msg);
 	}
 }
