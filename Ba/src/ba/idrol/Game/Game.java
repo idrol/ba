@@ -7,7 +7,7 @@ import ba.idrol.net.Sprite;
 public class Game extends GameComponent {
 
 	GameObject plr;
-	GameObject ground, platform_1, platform_2, platform_3;
+	GameObject ground, platform_1, platform_2, platform_3, platform_4, platform_5, platform_6, platform_7, platform_8;
 	public Game(){
 		
 	}
@@ -19,6 +19,11 @@ public class Game extends GameComponent {
 		platform_1 = new GameObject(platform, 100, 60);
 		platform_2 = new GameObject(platform, 400, 100);
 		platform_3 = new GameObject(platform, 600, 60);
+		platform_4 = new GameObject(platform, 500, 160);
+		platform_5 = new GameObject(platform, 310, 260);
+		platform_6 = new GameObject(platform, 120, 360);
+		platform_7 = new GameObject(platform, 290, 460);
+		platform_8 = new GameObject(platform, 400, 560);
 	}
 	@Override
 	public void update(int delta){
