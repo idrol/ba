@@ -6,6 +6,7 @@ import ba.idrol.net.Sprite;
 
 public class Game extends GameComponent {
 
+	GameObject bg;
 	GameObject plr;
 	GameObject ground, platform_1, platform_2, platform_3, platform_4, platform_5, platform_6, platform_7, platform_8;
 	public Game(){
@@ -13,6 +14,7 @@ public class Game extends GameComponent {
 	}
 	@Override
 	public void loadObjects(){
+		bg = new GameObject(800, 600, new Sprite("/res/images/world/bg.png"), 0, 0).disableCollision();
 		plr = new Player(new Sprite("/res/images/character/char.png"), 30, 50).enableGravity();
 		ground = new GameObject(800, 10, new Sprite("/res/images/world/sand.png"), 0, 0);
 		Sprite platform = new Sprite("/res/images/world/platform.png");
