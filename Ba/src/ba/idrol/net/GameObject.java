@@ -63,7 +63,7 @@ public class GameObject {
 		this.y += y;
 		for(GameObject obj: Main.currentGameComponent.getGameObjectList()){
 			if(!obj.equals(this)){
-				if(this.hasColisionBox){
+				if(obj.hasColisionBox){
 					if(this.x < obj.x + obj.width &&
 							   this.x + this.width > obj.x &&
 							   this.y < obj.y + obj.height &&
