@@ -15,6 +15,8 @@ public class GameObject {
 	protected boolean onGround = false;
 	protected boolean hasGravity = false;
 	
+	protected boolean hasColisionBox = true;
+	
 	private GameObject(int width, int height, float x, float y){
 		this.height = height;
 		this.width = width;
@@ -37,6 +39,10 @@ public class GameObject {
 		this.hasGravity = true;
 		return this;
 	}
+	public GameObject disableCollision(){
+		this.hasColisionBox = false;
+		return this;
+	}
 	protected float getTop(){
 		return this.y+this.height;
 	}
@@ -57,13 +63,17 @@ public class GameObject {
 		this.y += y;
 		for(GameObject obj: Main.currentGameComponent.getGameObjectList()){
 			if(!obj.equals(this)){
-				if(this.x < obj.x + obj.width &&
-						   this.x + this.width > obj.x &&
-						   this.y < obj.y + obj.height &&
-						   this.height + this.y > obj.y){
-					this.x = oldx;
-					this.y = oldy;
-					return true;
+				if(this.hasColisionBox){
+					if(this.x < obj.x + obj.width &&
+							   this.x + this.width > obj.x &&
+							   this.y < obj.y + obj.height &&
+							   this.height + this.y > obj.y){
+						this.x = oldx;
+						this.y = oldy;
+						return true;
+					}
+				}else{
+					return false;
 				}
 			}
 		}
