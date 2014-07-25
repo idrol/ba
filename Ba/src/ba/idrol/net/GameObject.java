@@ -43,6 +43,9 @@ public class GameObject {
 		this.hasColisionBox = false;
 		return this;
 	}
+	public boolean getCollStat(){
+		return this.hasColisionBox;
+	}
 	protected float getTop(){
 		return this.y+this.height;
 	}
@@ -72,8 +75,6 @@ public class GameObject {
 						this.y = oldy;
 						return true;
 					}
-				}else{
-					return false;
 				}
 			}
 		}

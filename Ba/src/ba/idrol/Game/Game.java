@@ -16,6 +16,7 @@ public class Game extends GameComponent {
 	public void loadObjects(){
 		bg = new GameObject(800, 600, new Sprite("/res/images/world/bg.png"), 0, 0).disableCollision();
 		plr = new Player(new Sprite("/res/images/character/char.png"), 30, 50).enableGravity();
+		System.out.println(plr.getCollStat());
 		ground = new GameObject(800, 10, new Sprite("/res/images/world/sand.png"), 0, 0);
 		Sprite platform = new Sprite("/res/images/world/platform.png");
 		platform_1 = new GameObject(platform, 100, 60);
