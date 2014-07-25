@@ -8,9 +8,11 @@ public class Menu extends GameComponent {
 	
 	Play playBtn;
 	Exit exitBtn;
+	GameObject bg;
 	
 	@Override
 	public void loadObjects(){
+		bg = new GameObject(800, 600, new Sprite("/res/images/world/bg.png"), 0, 0);
 		playBtn = new Play(new Sprite("/res/images/menu/play.png"), 270, 400);
 		exitBtn = new Exit(new Sprite("/res/images/menu/exit.png"), 270, 200);
 	}
