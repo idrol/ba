@@ -8,5 +8,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="jar/slick-util.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/kryonet"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
