@@ -9,5 +9,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="jar/slick-util.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kryonet"/>
+	<classpathentry kind="lib" path="/kryonet/lib/jsonbeans-0.5.jar"/>
+	<classpathentry kind="lib" path="/kryonet/lib/kryo-2.23.1-SNAPSHOT-all-debug.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

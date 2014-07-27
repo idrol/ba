@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class GameObject {
 	protected int width, height;
-	protected float x, y;
+	public float x, y;
 	protected Sprite texture;
 	
 	protected static float GRAVITY = 0.04f;
