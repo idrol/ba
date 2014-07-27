@@ -13,7 +13,7 @@ import com.esotericsoftware.kryonet.Listener;
 
 public class Network extends Listener {
 	public Client client;
-	private String ip = "localhost";
+	private String ip = "85.134.54.222";
 	private int port = 25555;
 	
 	public void connect(){
