@@ -26,8 +26,8 @@ public class LocalPlayer extends Player {
 		
 		if(x != 0 || y != 0){
 			PacketPositionUpdate packet = new PacketPositionUpdate();
-			packet.x = x;
-			packet.y = y;
+			packet.x = this.x;
+			packet.y = this.y;
 			network.client.sendUDP(packet);
 		}
 	}

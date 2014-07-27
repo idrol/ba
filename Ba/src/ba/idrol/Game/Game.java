@@ -8,7 +8,6 @@ import com.esotericsoftware.minlog.Log;
 import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Sprite;
-import ba.idrol.network.client.MpPlayer;
 import ba.idrol.network.client.Network;
 
 public class Game extends GameComponent {
@@ -48,6 +47,7 @@ public class Game extends GameComponent {
 	}
 	@Override
 	public void update(int delta){
+		MpPlayer.createPlayers();
 		for(GameObject obj: this.objList){
 			obj.update();
 		}
