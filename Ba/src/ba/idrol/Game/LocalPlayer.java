@@ -36,6 +36,13 @@ public class LocalPlayer extends Player {
 		if(this.onGround){
 			this.vertical_speed += 1.2f;
 		}
+		Network network = Game.getNetwork();
+		if(x != 0 || y != 0){
+			PacketPositionUpdate packet = new PacketPositionUpdate();
+			packet.x = this.x;
+			packet.y = this.y;
+			network.client.sendUDP(packet);
+		}
 	}
 
 }
