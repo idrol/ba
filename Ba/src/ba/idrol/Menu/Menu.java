@@ -1,7 +1,5 @@
 package ba.idrol.Menu;
 
-import java.util.Random;
-
 import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Sprite;
@@ -48,9 +46,9 @@ public class Menu extends GameComponent {
 			obj.render();
 		}
 	}
-	public static int randomGen(int pos){
-		for(int idx =1; idx<=2; ++idx){
-			int randomInt = (int) (pos * Math.random());
+	public static int randomGen(int range){
+		for(int idx =1; idx<=2;){
+			int randomInt = (int) (range * Math.random());
 			System.out.println(randomInt);
 			return randomInt;
 		}
