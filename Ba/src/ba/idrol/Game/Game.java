@@ -42,7 +42,7 @@ public class Game extends GameComponent {
 		sw_2 = new GameObject(sword, 410, 700).enableGravity().disableCollision();
 		sh_1 = new GameObject(shield, 600, 700).enableGravity().disableCollision();
 		sh_2 = new GameObject(shield, 200, 700).enableGravity().disableCollision();
-		plr = new LocalPlayer(new Sprite("/res/images/character/char.png"), 30, 50).enableGravity();
+		plr = new LocalPlayer(new Sprite("/res/images/character/char.png"), 30, 50);
 		network.connect();
 	}
 	@Override
