@@ -127,4 +127,7 @@ public class GameObject {
 			this.fall();
 		}
 	}
+	public void destroy(){
+		Main.currentGameComponent.objList.remove(this);
+	}
 }
