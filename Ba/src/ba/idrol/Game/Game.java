@@ -8,6 +8,7 @@ import com.esotericsoftware.minlog.Log;
 import ba.idrol.Menu.Menu;
 import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;
+import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
 import ba.idrol.network.client.Network;
 
@@ -60,16 +61,16 @@ public class Game extends GameComponent {
 		Sprite cloud = new Sprite("/res/images/world/cloud.png");
 		Sprite platform = new Sprite("/res/images/world/platform.png");
 		
-		cloud_1 = new GameObject(cloud, Menu.randomGen(800), Menu.randomGen(600));
-		cloud_2 = new GameObject(cloud, Menu.randomGen(800), Menu.randomGen(600));
-		cloud_3 = new GameObject(cloud, Menu.randomGen(800), Menu.randomGen(600));
-		cloud_4 = new GameObject(cloud, Menu.randomGen(800), Menu.randomGen(600));
-		cloud_5 = new GameObject(cloud, Menu.randomGen(800), Menu.randomGen(600));
-		cloud_6 = new GameObject(cloud, Menu.randomGen(800), Menu.randomGen(600));
-		cloud_7 = new GameObject(cloud, Menu.randomGen(800), Menu.randomGen(600));
-		cloud_8 = new GameObject(cloud, Menu.randomGen(800), Menu.randomGen(600));
-		cloud_9 = new GameObject(cloud, Menu.randomGen(800), Menu.randomGen(600));
-		cloud_10 = new GameObject(cloud, Menu.randomGen(800), Menu.randomGen(600));
+		cloud_1 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
+		cloud_2 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
+		cloud_3 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
+		cloud_4 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
+		cloud_5 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
+		cloud_6 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
+		cloud_7 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
+		cloud_8 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
+		cloud_9 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
+		cloud_10 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
 		
 		platform_1 = new GameObject(platform, 100, 60);
 		platform_2 = new GameObject(platform, 400, 100);

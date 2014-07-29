@@ -4,6 +4,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+
 import ba.idrol.Menu.Menu;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -109,6 +110,12 @@ public class Main {
 	public static void main(String[] argv) {
 		Main main = new Main();
 		main.start();
+	}
+	
+
+	public static int randomGen(int range){
+			int randomInt = (int) (range * Math.random());
+			return randomInt;
 	}
 
 	public static void log(int status, String msg) {
