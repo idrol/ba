@@ -47,11 +47,7 @@ public class Menu extends GameComponent {
 		}
 	}
 	public static int randomGen(int range){
-		for(int idx =1; idx<=2;){
 			int randomInt = (int) (range * Math.random());
-			System.out.println(randomInt);
 			return randomInt;
-		}
-		return 0;
 	}
 }
