@@ -34,6 +34,7 @@ public class LocalPlayer extends Player {
 			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
 			packet.keyPressed = Keyboard.KEY_RIGHT;
 			Game.getNetwork().client.sendTCP(packet);
+			this.moving_right = true;
 		}else if(this.moving_right){
 			this.moving_right = false;
 			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
