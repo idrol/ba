@@ -47,6 +47,7 @@ public class LocalPlayer extends Player {
 			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
 			packet.keyPressed = Keyboard.KEY_UP;
 			Game.getNetwork().client.sendTCP(packet);
+			this.jumping = true;
 		}else if(this.jumping){
 			this.jumping = false;
 			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
