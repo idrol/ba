@@ -12,19 +12,19 @@ import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
+import ba.idrol.net.Sprites;
 import ba.idrol.network.client.MpPlayerData;
 import ba.idrol.network.client.Network;
+import ba.idrol.server.packets.PacketAddGameObject;
 import ba.idrol.server.packets.PacketAddPlayer;
-import ba.idrol.server.packets.PacketPositionUpdate;
+import ba.idrol.server.packets.PacketPositionUpdatePlayer;
 import ba.idrol.server.packets.PacketRemovePlayer;
 
 public class Game extends GameComponent {
 	public static Map<Integer, MpPlayer> players = new HashMap<Integer, MpPlayer>();
 	GameObject bg;
 	public static GameObject plr;
-	GameObject ground, platform_1, platform_2, platform_3, platform_4, platform_5, platform_6, platform_7, platform_8, cloud_1, cloud_2, cloud_3, cloud_4, cloud_5, cloud_6, cloud_7, cloud_8, cloud_9, cloud_10;
-	GameObject sw_1, sw_2, sh_1, sh_2;
-	public static Sprite player;
+	GameObject cloud_1, cloud_2, cloud_3, cloud_4, cloud_5, cloud_6, cloud_7, cloud_8, cloud_9, cloud_10;
 	private static Network network;
 	public static BlockingQueue queue = new ArrayBlockingQueue(1024);
 	public Game(){
@@ -36,15 +36,13 @@ public class Game extends GameComponent {
 	@Override
 	public void loadObjects(){
 		world();
-		Sprite sword = new Sprite("/res/images/items/sword.png");
-		Sprite shield = new Sprite("/res/images/items/shield.png");
-		player = new Sprite("/res/images/character/char.png");
+		Sprites.addSprite(new Sprite("/res/images/items/sword.png"), "sword");
+		Sprites.addSprite(new Sprite("/res/images/items/shield.png"), "shield");
+		Sprites.addSprite(new Sprite("/res/images/character/char.png"), "player");
+		Sprites.addSprite(new Sprite("/res/images/world/platform.png"), "platform");
+		Sprites.addSprite(new Sprite("/res/images/world/sand.png"), "ground");
 
-		sw_1 = new GameObject(sword, 310, 700).enableGravity().disableCollision();
-		sw_2 = new GameObject(sword, 410, 700).enableGravity().disableCollision();
-		sh_1 = new GameObject(shield, 600, 700).enableGravity().disableCollision();
-		sh_2 = new GameObject(shield, 200, 700).enableGravity().disableCollision();
-		plr = new LocalPlayer(new Sprite("/res/images/character/char.png"), 30, 50);
+		plr = new LocalPlayer(Sprites.get("player"), 30, 50);
 		network.connect();
 	}
 	@Override
@@ -52,9 +50,6 @@ public class Game extends GameComponent {
 		processPackets();
 		for(GameObject obj: this.objList){
 			obj.update();
-			if(obj instanceof LocalPlayer){
-				((LocalPlayer) obj).networkUpdate();
-			}
 		}
 	}
 	public void processPackets(){
@@ -63,7 +58,7 @@ public class Game extends GameComponent {
 			o = queue.take();
 			if(o instanceof PacketAddPlayer){
 				PacketAddPlayer packet = (PacketAddPlayer)o;
-				MpPlayer newPlayer2 = (MpPlayer) new MpPlayer(100, 100).disableCollision();
+				MpPlayer newPlayer2 = (MpPlayer) new MpPlayer(100, 100);
 				newPlayer2.id = packet.id;
 				System.out.println("Adding mpplayer with id: "+newPlayer2.id);
 				Game.players.put(newPlayer2.id, newPlayer2);
@@ -71,16 +66,22 @@ public class Game extends GameComponent {
 				PacketRemovePlayer packet= (PacketRemovePlayer)o;
 				Game.players.get(packet.id).destroy();
 				Game.players.remove(packet.id);
-			}else if(o instanceof PacketPositionUpdate){
-				PacketPositionUpdate packet = (PacketPositionUpdate)o;
+			}else if(o instanceof PacketPositionUpdatePlayer){
+				PacketPositionUpdatePlayer packet = (PacketPositionUpdatePlayer)o;
 				if(packet.id == Network.client.getID()){
 					((LocalPlayer) Game.plr).setX(packet.x);
 					((LocalPlayer) Game.plr).setY(packet.y);
+					((LocalPlayer) Game.plr).direction = packet.direction;
 				}else{
 					System.out.println(packet.id);
 					Game.players.get(packet.id).x = packet.x;
 					Game.players.get(packet.id).y = packet.y;
+					Game.players.get(packet.id).direction = packet.direction;
 				}
+			}else if(o instanceof PacketAddGameObject){
+				PacketAddGameObject packet = (PacketAddGameObject)o;
+				GameObject object = new GameObject(packet.width, packet.height, packet.x, packet.y);
+				object.setTexture(Sprites.get(packet.spriteName));
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -93,11 +94,8 @@ public class Game extends GameComponent {
 		}
 	}
 	public void world(){
-		bg = new GameObject(800, 600, new Sprite("/res/images/world/bg.png"), 0, 0).disableCollision();
-		ground = new GameObject(800, 10, new Sprite("/res/images/world/sand.png"), 0, 0);
-		
+		bg = new GameObject(800, 600, new Sprite("/res/images/world/bg.png"), 0, 0);
 		Sprite cloud = new Sprite("/res/images/world/cloud.png");
-		Sprite platform = new Sprite("/res/images/world/platform.png");
 		
 		cloud_1 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
 		cloud_2 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
@@ -109,14 +107,5 @@ public class Game extends GameComponent {
 		cloud_8 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
 		cloud_9 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
 		cloud_10 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
-		
-		platform_1 = new GameObject(platform, 100, 60);
-		platform_2 = new GameObject(platform, 400, 100);
-		platform_3 = new GameObject(platform, 600, 60);
-		platform_4 = new GameObject(platform, 500, 160); 
-		platform_5 = new GameObject(platform, 310, 260);
-		platform_6 = new GameObject(platform, 120, 360);
-		platform_7 = new GameObject(platform, 290, 460);
-		platform_8 = new GameObject(platform, 400, 560);
 	}
 }

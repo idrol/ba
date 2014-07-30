@@ -5,9 +5,10 @@ import java.io.IOException;
 import ba.idrol.Game.Game;
 import ba.idrol.Game.LocalPlayer;
 import ba.idrol.Game.MpPlayer;
+import ba.idrol.server.packets.PacketAddGameObject;
 import ba.idrol.server.packets.PacketAddPlayer;
 import ba.idrol.server.packets.PacketPlayerKeyPress;
-import ba.idrol.server.packets.PacketPositionUpdate;
+import ba.idrol.server.packets.PacketPositionUpdatePlayer;
 import ba.idrol.server.packets.PacketRemovePlayer;
 
 import com.esotericsoftware.kryonet.Client;
@@ -21,14 +22,15 @@ public class Network extends Listener {
 	
 	public void connect(){
 		client = new Client();
-		client.getKryo().register(PacketPositionUpdate.class);
+		client.getKryo().register(PacketPositionUpdatePlayer.class);
 		client.getKryo().register(PacketAddPlayer.class);
 		client.getKryo().register(PacketRemovePlayer.class);
 		client.getKryo().register(PacketPlayerKeyPress.class);
+		client.getKryo().register(PacketAddGameObject.class);
 		client.addListener(this);
 		client.start();
 		try {
-			client.connect(5000, ip, port, port);
+			client.connect(5000, ip, port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
