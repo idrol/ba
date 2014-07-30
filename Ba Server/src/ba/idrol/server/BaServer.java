@@ -28,9 +28,9 @@ public class BaServer{
 	public static long global_delta = 0;
 	private static long lastUpdate = 0;
 	public static boolean isRunning = true;
-	public static BlockingQueue queue = new ArrayBlockingQueue(1024);
+	public static BlockingQueue<Object> queue = new ArrayBlockingQueue<Object>(1024);
 	public static Map<Integer, Player> players = new HashMap<Integer, Player>();
-	public static List process = new ArrayList<Packet>();
+	public static List<Packet> process = new ArrayList<Packet>();
 	public static Map<Integer, Packet> processQueue = new HashMap<Integer, Packet>();
 	private static World world;
 

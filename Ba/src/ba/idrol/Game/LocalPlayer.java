@@ -49,7 +49,6 @@ public class LocalPlayer extends Player {
 		if (Keyboard.isKeyDown(Keyboard.KEY_UP)){
 			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
 			packet.keyPressed = Keyboard.KEY_UP;
-			Game.getNetwork();
 			Network.client.sendTCP(packet);
 			this.jumping = true;
 		}else if(this.jumping){
@@ -57,7 +56,6 @@ public class LocalPlayer extends Player {
 			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
 			packet.keyPressed = Keyboard.KEY_UP;
 			packet.keyReleased = true;
-			Game.getNetwork();
 			Network.client.sendTCP(packet);
 		}
 		// Left mouse button = 0, right = 1, Midle = 2;
@@ -66,9 +64,18 @@ public class LocalPlayer extends Player {
 			if(this.swordRot > 140f){
 				this.swordRot = 0;
 			}
+			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
+			packet.keyPressed = 0;
+			packet.isMouse = true;
+			Network.client.sendTCP(packet);
 			this.attacking = true;
 		}else if(this.attacking){
 			this.attacking = false;
+			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
+			packet.keyPressed = 0;
+			packet.keyReleased = true;
+			packet.isMouse = true;
+			Network.client.sendTCP(packet);
 		}
 	}
 	
@@ -80,7 +87,6 @@ public class LocalPlayer extends Player {
 			glPushMatrix();
 				glTranslatef(this.x, this.y+16, 0);
 				glTranslatef(16, 0, 0);
-				System.out.println(this.swordRot);
 				if(this.direction == LEFT){
 					glRotatef(-this.swordRot, 0, 0, 1);
 				}else{

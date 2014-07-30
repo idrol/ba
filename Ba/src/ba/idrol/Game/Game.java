@@ -17,6 +17,7 @@ import ba.idrol.network.client.MpPlayerData;
 import ba.idrol.network.client.Network;
 import ba.idrol.server.packets.PacketAddGameObject;
 import ba.idrol.server.packets.PacketAddPlayer;
+import ba.idrol.server.packets.PacketPlayerKeyPress;
 import ba.idrol.server.packets.PacketPositionUpdatePlayer;
 import ba.idrol.server.packets.PacketRemovePlayer;
 
@@ -62,6 +63,7 @@ public class Game extends GameComponent {
 				PacketAddPlayer packet = (PacketAddPlayer)o;
 				MpPlayer newPlayer2 = (MpPlayer) new MpPlayer(100, 100);
 				newPlayer2.id = packet.id;
+				newPlayer2.setSword(Sprites.get("plr_sword"));
 				System.out.println("Adding mpplayer with id: "+newPlayer2.id);
 				Game.players.put(newPlayer2.id, newPlayer2);
 			}else if(o instanceof PacketRemovePlayer){
@@ -75,7 +77,6 @@ public class Game extends GameComponent {
 					((LocalPlayer) Game.plr).setY(packet.y);
 					((LocalPlayer) Game.plr).direction = packet.direction;
 				}else{
-					System.out.println(packet.id);
 					Game.players.get(packet.id).x = packet.x;
 					Game.players.get(packet.id).y = packet.y;
 					Game.players.get(packet.id).direction = packet.direction;
@@ -84,6 +85,14 @@ public class Game extends GameComponent {
 				PacketAddGameObject packet = (PacketAddGameObject)o;
 				GameObject object = new GameObject(packet.width, packet.height, packet.x, packet.y);
 				object.setTexture(Sprites.get(packet.spriteName));
+			}else if(o instanceof PacketPlayerKeyPress){
+				PacketPlayerKeyPress packet = (PacketPlayerKeyPress)o;
+				if(packet.keyReleased){
+					Game.players.get(packet.id).attacking = false;
+				}else{
+					System.out.println("Setting attacking to true");
+					Game.players.get(packet.id).attacking = true;
+				}
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

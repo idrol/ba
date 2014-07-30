@@ -16,27 +16,38 @@ public class Player extends GameObject {
 		super(32, 32, 100, 75);
 	}
 	public int id;
-	private boolean moveLeft = false, moveRight = false, jump = false, direction = RIGHT;
+	private boolean moveLeft = false, moveRight = false, jump = false, direction = RIGHT, attacking = false;
 	private static final boolean RIGHT = false, LEFT = true;
 	
 	public void keyPress(PacketPlayerKeyPress packet){
-		if(packet.keyPressed == Keyboard.KEY_LEFT){
-			if(packet.keyReleased){
-				this.moveLeft = false;
-			}else{
-				this.moveLeft = true;
+		if(!packet.isMouse){
+			if(packet.keyPressed == Keyboard.KEY_LEFT){
+				if(packet.keyReleased){
+					this.moveLeft = false;
+				}else{
+					this.moveLeft = true;
+				}
+			}else if(packet.keyPressed == Keyboard.KEY_RIGHT){
+				if(packet.keyReleased){
+					this.moveRight = false;
+				}else{
+					this.moveRight = true;
+				}
+			}else if(packet.keyPressed == Keyboard.KEY_UP){
+				if(packet.keyReleased){
+					this.jump = false;
+				}else{
+					this.jump = true;
+				}
 			}
-		}else if(packet.keyPressed == Keyboard.KEY_RIGHT){
-			if(packet.keyReleased){
-				this.moveRight = false;
-			}else{
-				this.moveRight = true;
-			}
-		}else if(packet.keyPressed == Keyboard.KEY_UP){
-			if(packet.keyReleased){
-				this.jump = false;
-			}else{
-				this.jump = true;
+		}else{
+			if(packet.keyPressed == 0){
+				BaServer.server.sendToAllExceptTCP(packet.id, packet);
+				if(packet.keyReleased){
+					this.attacking = false;
+				}else{
+					this.attacking = true;
+				}
 			}
 		}
 	}
@@ -71,6 +82,29 @@ public class Player extends GameObject {
 			packet.direction = this.direction;
 			BaServer.server.sendToAllTCP(packet);
 		}
+		if(this.attacking){
+			checkForHit();
+		}
+	}
+	
+	public void checkForHit(){
+		for(Player p: BaServer.players.values()){
+			if(!p.equals(this)){
+				if(this.direction == LEFT){
+					if(p.x <= this.x+this.width+16 &&
+					   p.x >= this.x+this.width &&
+					   p.y <= this.y+this.height &&
+					   p.y >= this.y){
+						System.out.println("Player "+p.id+" has been hit by: "+this.id);
+						p.hit();
+					}
+				}
+			}
+		}
+	}
+	
+	private void hit() {
+		
 	}
 	public void jump(){
 		if(this.onGround){
