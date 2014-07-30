@@ -51,26 +51,28 @@ public class GameObject {
 		this.texture.getTexture().bind();;
 		glPushMatrix();
 		if(this.direction == LEFT){
+			glTranslatef(this.x, this.y, 0);
 			glBegin(GL_QUADS);
 				glTexCoord2f(0, 1);
-				glVertex2f(this.x, this.y);
+				glVertex2f(0, 0);
 				glTexCoord2f(1, 1);
-				glVertex2f(this.x+this.width, this.y);
+				glVertex2f(this.width, 0);
 				glTexCoord2f(1, 0);
-				glVertex2f(this.x+this.width, this.y+this.height);
+				glVertex2f(this.width, this.height);
 				glTexCoord2f(0, 0);
-				glVertex2f(this.x, this.y+this.height);
+				glVertex2f(0, this.height);
 			glEnd();
 		}else{
+			glTranslatef(this.x, this.y, 0);
 			glBegin(GL_QUADS);
 				glTexCoord2f(1, 1);
-				glVertex2f(this.x, this.y);
+				glVertex2f(0, 0);
 				glTexCoord2f(0, 1);
-				glVertex2f(this.x+this.width, this.y);
+				glVertex2f(this.width, 0);
 				glTexCoord2f(0, 0);
-				glVertex2f(this.x+this.width, this.y+this.height);
+				glVertex2f(this.width, this.height);
 				glTexCoord2f(1, 0);
-				glVertex2f(this.x, this.y+this.height);
+				glVertex2f(0, this.height);
 			glEnd();
 		}
 		glPopMatrix();

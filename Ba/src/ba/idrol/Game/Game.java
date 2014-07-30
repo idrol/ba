@@ -41,8 +41,10 @@ public class Game extends GameComponent {
 		Sprites.addSprite(new Sprite("/res/images/character/char.png"), "player");
 		Sprites.addSprite(new Sprite("/res/images/world/platform.png"), "platform");
 		Sprites.addSprite(new Sprite("/res/images/world/sand.png"), "ground");
-
+		Sprites.addSprite(new Sprite("/res/images/items/SwordH.png"), "plr_sword");
+		
 		plr = new LocalPlayer(Sprites.get("player"), 30, 50);
+		((LocalPlayer) plr).setSword(Sprites.get("plr_sword"));
 		network.connect();
 	}
 	@Override
