@@ -7,10 +7,10 @@ import ba.idrol.net.Sprite;
 import ba.idrol.network.client.MpPlayerData;
 
 public class MpPlayer extends Player {
-	private int id;
+	public int id;
 	public static Map<Integer, MpPlayerData> createPlayersQue = new HashMap<Integer, MpPlayerData>();
 	public MpPlayer(float x, float y){
-		super(new Sprite("/res/images/character/char.png"), x, y);
+		super(Game.player, x, y);
 	}
 	public void setX(float x){
 		this.x = x;

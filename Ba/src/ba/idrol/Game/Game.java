@@ -2,6 +2,8 @@ package ba.idrol.Game;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import com.esotericsoftware.minlog.Log;
 
@@ -10,7 +12,11 @@ import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
+import ba.idrol.network.client.MpPlayerData;
 import ba.idrol.network.client.Network;
+import ba.idrol.server.packets.PacketAddPlayer;
+import ba.idrol.server.packets.PacketPositionUpdate;
+import ba.idrol.server.packets.PacketRemovePlayer;
 
 public class Game extends GameComponent {
 	public static Map<Integer, MpPlayer> players = new HashMap<Integer, MpPlayer>();
@@ -18,7 +24,9 @@ public class Game extends GameComponent {
 	public static GameObject plr;
 	GameObject ground, platform_1, platform_2, platform_3, platform_4, platform_5, platform_6, platform_7, platform_8, cloud_1, cloud_2, cloud_3, cloud_4, cloud_5, cloud_6, cloud_7, cloud_8, cloud_9, cloud_10;
 	GameObject sw_1, sw_2, sh_1, sh_2;
+	public static Sprite player;
 	private static Network network;
+	public static BlockingQueue queue = new ArrayBlockingQueue(1024);
 	public Game(){
 		network = new Network();
 	}
@@ -30,6 +38,7 @@ public class Game extends GameComponent {
 		world();
 		Sprite sword = new Sprite("/res/images/items/sword.png");
 		Sprite shield = new Sprite("/res/images/items/shield.png");
+		player = new Sprite("/res/images/character/char.png");
 
 		sw_1 = new GameObject(sword, 310, 700).enableGravity().disableCollision();
 		sw_2 = new GameObject(sword, 410, 700).enableGravity().disableCollision();
@@ -40,12 +49,41 @@ public class Game extends GameComponent {
 	}
 	@Override
 	public void update(int delta){
-		MpPlayer.createPlayers();
+		processPackets();
 		for(GameObject obj: this.objList){
 			obj.update();
 			if(obj instanceof LocalPlayer){
 				((LocalPlayer) obj).networkUpdate();
 			}
+		}
+	}
+	public void processPackets(){
+		Object o;
+		try {
+			o = queue.take();
+			if(o instanceof PacketAddPlayer){
+				PacketAddPlayer packet = (PacketAddPlayer)o;
+				MpPlayer newPlayer2 = (MpPlayer) new MpPlayer(100, 100).disableCollision();
+				newPlayer2.id = packet.id;
+				System.out.println("Adding mpplayer with id: "+newPlayer2.id);
+				Game.players.put(newPlayer2.id, newPlayer2);
+			}else if(o instanceof PacketRemovePlayer){
+				PacketRemovePlayer packet= (PacketRemovePlayer)o;
+				Game.players.get(packet.id).destroy();
+				Game.players.remove(packet.id);
+			}else if(o instanceof PacketPositionUpdate){
+				PacketPositionUpdate packet = (PacketPositionUpdate)o;
+				if(packet.id == Network.client.getID()){
+					((LocalPlayer) Game.plr).setX(packet.x);
+					((LocalPlayer) Game.plr).setY(packet.y);
+				}else{
+					System.out.println(packet.id);
+					Game.players.get(packet.id).x = packet.x;
+					Game.players.get(packet.id).y = packet.y;
+				}
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	@Override

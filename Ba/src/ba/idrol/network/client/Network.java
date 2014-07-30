@@ -15,7 +15,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 public class Network extends Listener {
-	public Client client;
+	public static Client client;
 	private String ip = "85.134.54.222";
 	private int port = 25555;
 	
@@ -30,30 +30,15 @@ public class Network extends Listener {
 		try {
 			client.connect(5000, ip, port, port);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	public void received(Connection c, Object o){
-		if(o instanceof PacketAddPlayer){
-			PacketAddPlayer packet = (PacketAddPlayer)o;
-			MpPlayerData newPlayer = new MpPlayerData();
-			newPlayer.id = packet.id;
-			MpPlayer.createPlayersQue.put(packet.id, newPlayer);
-		}else if(o instanceof PacketRemovePlayer){
-			PacketRemovePlayer packet= (PacketRemovePlayer)o;
-			Game.players.get(packet.id).destroy();
-			Game.players.remove(packet.id);
-		}else if(o instanceof PacketPositionUpdate){
-			PacketPositionUpdate packet = (PacketPositionUpdate)o;
-			if(packet.id == c.getID()){
-				((LocalPlayer) Game.plr).setX(packet.x);
-				((LocalPlayer) Game.plr).setY(packet.y);
-			}else{
-				Game.players.get(packet.id).x = packet.x;
-				Game.players.get(packet.id).y = packet.y;
-			}
+		try {
+			Game.queue.put(o);
+		} catch (InterruptedException e){
+			e.printStackTrace();
 		}
 	}
 }
