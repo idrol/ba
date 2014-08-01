@@ -5,12 +5,20 @@ import ba.idrol.net.GameObject;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
 
+/*
+ * The menu game component.
+ */
 public class Menu extends GameComponent {
 	
-	Play playBtn;
-	Exit exitBtn;
-	GameObject bg, logo, cloud_1, cloud_2, cloud_3, cloud_4, cloud_5, cloud_6, cloud_7, cloud_8, cloud_9, cloud_10;
+	// Stores Background and buttons.
+	private Play playBtn;
+	private Exit exitBtn;
+	private GameObject bg, logo, cloud_1, cloud_2, cloud_3, cloud_4, cloud_5, cloud_6, cloud_7, cloud_8, cloud_9, cloud_10;
 	
+	/*
+	 * @see ba.idrol.net.GameComponent#loadObjects()
+	 * Creates background and buttons.
+	 */
 	@Override
 	public void loadObjects(){
 		Sprite cloud = new Sprite("/res/images/world/cloud.png");
@@ -34,6 +42,10 @@ public class Menu extends GameComponent {
 		
 	}
 	
+	/*
+	 * @see ba.idrol.net.GameComponent#update(int)
+	 * Menu update loop
+	 */
 	@Override
 	public void update(int delta){
 		for(GameObject obj: objList){
@@ -41,6 +53,10 @@ public class Menu extends GameComponent {
 		}
 	}
 	
+	/*
+	 * @see ba.idrol.net.GameComponent#render()
+	 * Menu render loop.
+	 */
 	@Override
 	public void render(){
 		for(GameObject obj: objList){

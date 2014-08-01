@@ -3,6 +3,9 @@ package ba.idrol.Menu;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
 
+/*
+ * Class for exit button.
+ */
 public class Exit extends Button {
 
 	public Exit(Sprite sprite, float x, float y) {

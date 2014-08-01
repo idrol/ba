@@ -10,14 +10,29 @@ import ba.idrol.server.packets.PacketPlayerKeyPress;
 import ba.idrol.server.packets.PacketPositionUpdatePlayer;
 import static org.lwjgl.opengl.GL11.*;
 
+/*
+ * Player object only used for local player.
+ */
 public class LocalPlayer extends Player {
-	private float networkX = 0, networkY = 0, swordRot = 0;
+	// Current sword rotation.
+	private float swordRot = 0;
+	// Boolean variables for storing movement/actions.
 	private boolean jumping = false, moving_left = false, moving_right = false, attacking = false;
+	// Stores the sprite for the sword.
 	private Sprite sword;
+	
+	/*
+	 * Creates new local player with sprite and pos.
+	 */
 	public LocalPlayer(Sprite sprite, float x, float y) {
 		super(sprite, x, y);
 	}
 	
+	/*
+	 * @see ba.idrol.net.GameObject#update()
+	 * Update method for the local player
+	 * Every key event is recorded here and send to server.
+	 */
 	@Override
 	public void update(){
 		super.update();
@@ -79,6 +94,10 @@ public class LocalPlayer extends Player {
 		}
 	}
 	
+	/*
+	 * @see ba.idrol.net.GameObject#render()
+	 * Renders the player and sword if attacking.
+	 */
 	@Override
 	public void render(){
 		super.render();
@@ -107,17 +126,23 @@ public class LocalPlayer extends Player {
 		}
 	}
 	
-	public void jump(){
-		if(this.onGround){
-			this.vertical_speed += 1.2f;
-		}
-	}
+	/*
+	 * Sets the player x position.
+	 */
 	public void setX(float x){
 		this.x = x;
 	}
+	
+	/*
+	 * Sets the player y position.
+	 */
 	public void setY(float y){
 		this.y = y;
 	}
+	
+	/*
+	 * Sets the sword sprite.
+	 */
 	public void setSword(Sprite sprite){
 		this.sword = sprite;
 	}

@@ -1,5 +1,8 @@
 package ba.idrol.network.client;
 
+/*
+ * TODO: find out if this is needed.
+ */
 public class MpPlayerData {
 	public int id;
 	public float x, y;

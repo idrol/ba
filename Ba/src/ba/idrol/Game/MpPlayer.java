@@ -19,25 +19,48 @@ import ba.idrol.net.Sprites;
 import ba.idrol.network.client.MpPlayerData;
 
 public class MpPlayer extends Player {
+	// Connection id for mp player.
 	public int id;
-	public static Map<Integer, MpPlayerData> createPlayersQue = new HashMap<Integer, MpPlayerData>();
+	// Status if player is attacking.
 	public boolean attacking = false;
+	// Current sprite for sword.
 	private Sprite sword;
+	// Current sword rotation.
 	private float swordRot = 0;
+	
+	/*
+	 * Creates new player at specified location.
+	 */
 	public MpPlayer(float x, float y){
 		super(Sprites.get("player"), x, y);
 	}
+	
+	/*
+	 * Sets players x position.
+	 */
 	public void setX(float x){
 		this.x = x;
 	}
+	
+	/*
+	 * Sets players y position.
+	 */
 	public void setY(float y){
 		this.y = y;
 	}
 	
+	/*
+	 * Sets the current sword sprite.
+	 */
 	public void setSword(Sprite sprite){
 		this.sword = sprite;
 	}
 	
+	/*
+	 * @see ba.idrol.net.GameObject#update()
+	 * 
+	 * Player update method only updates sword rot.
+	 */
 	@Override
 	public void update(){
 		if(this.attacking){
@@ -48,6 +71,11 @@ public class MpPlayer extends Player {
 		}
 	}
 	
+	/*
+	 * @see ba.idrol.net.GameObject#render()
+	 * 
+	 * Render method for player
+	 */
 	public void render(){
 		super.render();
 //		System.out.println(this.attacking);
@@ -73,19 +101,6 @@ public class MpPlayer extends Player {
 					glVertex2f(0, this.sword.getTexture().getTextureHeight());
 				glEnd();
 			glPopMatrix();
-		}
-	}
-	
-	public static void createPlayers(){
-//		System.out.println(createPlayersQue.size());
-		if(createPlayersQue.size() > 0){
-			for(MpPlayerData player : createPlayersQue.values()){
-				MpPlayer newPlayer = (MpPlayer) new MpPlayer(player.x, player.y);
-				newPlayer.id = player.id;
-				System.out.println("Adding mpplayer with id: "+newPlayer.id);
-				Game.players.put(newPlayer.id, newPlayer);
-				createPlayersQue.remove(player.id);
-			}
 		}
 	}
 	

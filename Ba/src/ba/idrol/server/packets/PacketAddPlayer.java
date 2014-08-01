@@ -1,5 +1,7 @@
 package ba.idrol.server.packets;
-
-public class PacketAddPlayer {
+/*
+ * Packet for adding a player.
+ */
+public class PacketAddPlayer{
 	public int id;
 }

@@ -17,11 +17,21 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+/*
+ * Class that handles all network communication on client side.
+ */
 public class Network extends Listener {
+	
+	// Stores the client object in a public static variable.
 	public static Client client;
+	// The ip to connect to.
 	private String ip = "85.134.54.222";
+	// The port to connect to.
 	private int port = 25555;
 	
+	/*
+	 * Methode that connects the client to the server.
+	 */
 	public void connect(){
 		client = new Client();
 		client.getKryo().register(PacketPositionUpdatePlayer.class);
@@ -38,6 +48,11 @@ public class Network extends Listener {
 		}
 	}
 	
+	/*
+	 * @see com.esotericsoftware.kryonet.Listener#received(com.esotericsoftware.kryonet.Connection, java.lang.Object)
+	 * 
+	 * Handles messages received from the server.
+	 */
 	public void received(Connection c, Object o){
 		if(o instanceof PacketAddPlayer){
 			PacketAddPlayer packet = (PacketAddPlayer)o;
