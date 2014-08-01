@@ -1,4 +1,7 @@
 package ba.idrol.packets;
-
-public class PacketAddPlayer extends Packet {
+/*
+ * Packet for adding a player.
+ */
+public class PacketAddPlayer{
+	public int id;
 }

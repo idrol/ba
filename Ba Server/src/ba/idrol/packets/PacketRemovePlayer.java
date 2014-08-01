@@ -1,5 +1,8 @@
 package ba.idrol.packets;
 
-
-public class PacketRemovePlayer extends Packet {
+/*
+ * Packet for removing a player by id.
+ */
+public class PacketRemovePlayer{
+	public int id;
 }

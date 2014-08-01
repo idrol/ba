@@ -1,8 +1,15 @@
 package ba.idrol.server;
 
 public class World {
+	// Variables for World objects.
 	GameObject bg, ground, platform_1, platform_2, platform_3, platform_4, platform_5, platform_6, platform_7, platform_8, cloud_1, cloud_2, cloud_3, cloud_4, cloud_5, cloud_6, cloud_7, cloud_8, cloud_9, cloud_10;
 	GameObject sw_1, sw_2, sh_1, sh_2;
+	/*
+	 * Create the world.
+	 * 
+	 * Create all objects here and use the constructor that defines spriteNames to make these objects networked.
+	 * @see ba.idrol.net.Sprites
+	 */
 	public World(){
 		ground = new GameObject(800, 10, 0, 0, "ground");
 		platform_1 = new GameObject(64, 4, 100, 60, "platform");

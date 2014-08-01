@@ -8,11 +8,18 @@ import ba.idrol.packets.PacketRemovePlayer;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+/*
+ * Main network class that handles all communication to clients.
+ */
 public class Network extends Listener {
 	
+	/*
+	 * @see com.esotericsoftware.kryonet.Listener#connected(com.esotericsoftware.kryonet.Connection)
+	 * 
+	 * Connected method overridden from Listener
+	 * Handles client connections and notifies other users that a player has joined.
+	 */
 	public void connected(Connection c){
-		
-		
 		PacketAddPlayer packet = new PacketAddPlayer();
 		packet.id = c.getID();
 		BaServer.server.sendToAllExceptTCP(c.getID(), packet);
@@ -38,17 +45,24 @@ public class Network extends Listener {
 		System.out.println("Player Connection recived!");
 	}
 	
+	/*
+	 * @see com.esotericsoftware.kryonet.Listener#received(com.esotericsoftware.kryonet.Connection, java.lang.Object)
+	 * 
+	 * Method that handles incoming packets from clients.
+	 */
 	public void received(Connection c, Object o){
 		if(o instanceof PacketPlayerKeyPress){
 			PacketPlayerKeyPress packet1 = (PacketPlayerKeyPress)o;
 			packet1.id = c.getID();
 			BaServer.players.get(packet1.id).keyPress(packet1);
 		}
-		
-		
-		
 	}
 	
+	/*
+	 * @see com.esotericsoftware.kryonet.Listener#disconnected(com.esotericsoftware.kryonet.Connection)
+	 * 
+	 * Method that handles client disconnects and notifies other clients.
+	 */
 	public void disconnected(Connection c){
 		PacketRemovePlayer packet = new PacketRemovePlayer();
 		packet.id = c.getID();
