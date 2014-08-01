@@ -1,19 +1,12 @@
 package ba.idrol.server;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.lwjgl.Sys;
-
 import ba.idrol.packets.PacketAddGameObject;
 import ba.idrol.packets.PacketAddPlayer;
 import ba.idrol.packets.PacketPlayerKeyPress;
-import ba.idrol.packets.PacketPositionUpdatePlayer;
 import ba.idrol.packets.PacketRemovePlayer;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.esotericsoftware.kryonet.Server;
 
 public class Network extends Listener {
 	
@@ -39,34 +32,27 @@ public class Network extends Listener {
 			packet2.spriteName = o.spriteName;
 			c.sendTCP(packet2);
 		}
-		try {
-			BaServer.queue.put(packet);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Player player = (Player) new Player().disableCollision().enableGravity();
+		player.id = packet.id;
+		BaServer.players.put(packet.id, player);
 		System.out.println("Player Connection recived!");
 	}
 	
-	public void received(Connection c, Object object){
-		if(object instanceof PacketPlayerKeyPress){
-			((PacketPlayerKeyPress) object).id = c.getID();
+	public void received(Connection c, Object o){
+		if(o instanceof PacketPlayerKeyPress){
+			PacketPlayerKeyPress packet1 = (PacketPlayerKeyPress)o;
+			packet1.id = c.getID();
+			BaServer.players.get(packet1.id).keyPress(packet1);
 		}
-		try {
-			BaServer.queue.put(object);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		
+		
 		
 	}
 	
 	public void disconnected(Connection c){
 		PacketRemovePlayer packet = new PacketRemovePlayer();
 		packet.id = c.getID();
-		try {
-			BaServer.queue.put(packet);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		BaServer.players.remove(packet.id);
 		BaServer.server.sendToAllExceptTCP(c.getID(), packet);
 		System.out.println("Player disconnected!");
 	}

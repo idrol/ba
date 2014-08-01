@@ -37,11 +37,11 @@ public class Main {
 		lastFPS = getTime();
 		
 		while (!Display.isCloseRequested()) {
-			deltaTime = getDelta();
 			
 			update(deltaTime);
 			renderGL();
-
+			deltaTime = getDelta();
+			System.out.println("Client delta time: "+deltaTime);
 			Display.update();
 			Display.sync(120);
 		}

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
@@ -28,10 +30,7 @@ public class BaServer{
 	public static long global_delta = 0;
 	private static long lastUpdate = 0;
 	public static boolean isRunning = true;
-	public static BlockingQueue<Object> queue = new ArrayBlockingQueue<Object>(1024);
-	public static Map<Integer, Player> players = new HashMap<Integer, Player>();
-	public static List<Packet> process = new ArrayList<Packet>();
-	public static Map<Integer, Packet> processQueue = new HashMap<Integer, Packet>();
+	public static ConcurrentMap<Integer, Player> players = new ConcurrentHashMap<Integer, Player>();
 	private static World world;
 
 	public BaServer(){
@@ -49,35 +48,8 @@ public class BaServer{
 	}
 	
 	private void update() {
-		processPackets();
 		for(Player p:players.values()){
 			p.update();
-		}
-	}
-	public void processPackets(){
-		while(queue.iterator().hasNext()){
-			try {
-				Object o = queue.take();
-				if(o instanceof PacketPlayerKeyPress){
-					PacketPlayerKeyPress packet1 = (PacketPlayerKeyPress)o;
-					BaServer.players.get(packet1.id).keyPress(packet1);
-				}
-				if(o instanceof PacketAddPlayer){
-					PacketAddPlayer packet = (PacketAddPlayer) o;
-					Player player = (Player) new Player().disableCollision().enableGravity();
-					player.id = packet.id;
-					players.put(packet.id, player);
-				}
-				if(o instanceof PacketRemovePlayer){
-					PacketRemovePlayer packet = (PacketRemovePlayer) o;
-					players.remove(packet.id);
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			if(queue.size() > 900){
-				System.out.println("Warning queue size is: " + queue.size());
-			}
 		}
 	}
 
