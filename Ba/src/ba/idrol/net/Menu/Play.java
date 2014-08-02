@@ -1,8 +1,8 @@
-package ba.idrol.Menu;
+package ba.idrol.net.Menu;
 
-import ba.idrol.Game.Game;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
+import ba.idrol.net.Game.Game;
 
 /*
  * Object for play button.

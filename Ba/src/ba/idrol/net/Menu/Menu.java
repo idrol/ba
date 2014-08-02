@@ -1,4 +1,4 @@
-package ba.idrol.Menu;
+package ba.idrol.net.Menu;
 
 import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;

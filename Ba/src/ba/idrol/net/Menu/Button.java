@@ -1,4 +1,4 @@
-package ba.idrol.Menu;
+package ba.idrol.net.Menu;
 
 import org.lwjgl.input.Mouse;
 

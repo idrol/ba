@@ -1,13 +1,14 @@
-package ba.idrol.Game;
+package ba.idrol.net.Game;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
-import ba.idrol.network.client.Network;
-import ba.idrol.server.packets.PacketPlayerKeyPress;
-import ba.idrol.server.packets.PacketPositionUpdatePlayer;
+import ba.idrol.net.client.Network;
+import ba.idrol.net.packets.PacketPlayerKeyPress;
+import ba.idrol.net.packets.PacketPositionUpdatePlayer;
 import static org.lwjgl.opengl.GL11.*;
 
 /*
@@ -101,6 +102,18 @@ public class LocalPlayer extends Player {
 	@Override
 	public void render(){
 		super.render();
+		System.out.println(this.x+", "+this.y);
+		glPushMatrix();
+			glTranslatef(this.x, this.y+32, 0);
+			glColor3f(1, 0, 0);
+			glBegin(GL_QUADS);
+				glVertex2f(0, 0);
+				glVertex2f(32, 0);
+				glVertex2f(32, 32);
+				glVertex2f(0, 32);
+			glEnd();
+		glPopMatrix();
+		glColor3f(1, 1, 1);
 		if(this.attacking){
 			this.sword.bind();
 			glPushMatrix();
@@ -123,7 +136,9 @@ public class LocalPlayer extends Player {
 					glVertex2f(0, this.sword.getTexture().getTextureHeight());
 				glEnd();
 			glPopMatrix();
+			glBindTexture(GL_TEXTURE_2D, 0);
 		}
+		
 	}
 	
 	/*

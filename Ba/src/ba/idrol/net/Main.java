@@ -5,7 +5,7 @@ import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import ba.idrol.Menu.Menu;
+import ba.idrol.net.Menu.Menu;
 import static org.lwjgl.opengl.GL11.*;
 
 /*

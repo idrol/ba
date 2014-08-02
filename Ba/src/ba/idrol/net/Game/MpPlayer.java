@@ -1,4 +1,4 @@
-package ba.idrol.Game;
+package ba.idrol.net.Game;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
@@ -16,7 +16,7 @@ import java.util.Map;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
 import ba.idrol.net.Sprites;
-import ba.idrol.network.client.MpPlayerData;
+import ba.idrol.net.client.MpPlayerData;
 
 public class MpPlayer extends Player {
 	// Connection id for mp player.

@@ -1,17 +1,18 @@
-package ba.idrol.network.client;
+package ba.idrol.net.client;
 
 import java.io.IOException;
 
-import ba.idrol.Game.Game;
-import ba.idrol.Game.LocalPlayer;
-import ba.idrol.Game.MpPlayer;
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Sprites;
-import ba.idrol.server.packets.PacketAddGameObject;
-import ba.idrol.server.packets.PacketAddPlayer;
-import ba.idrol.server.packets.PacketPlayerKeyPress;
-import ba.idrol.server.packets.PacketPositionUpdatePlayer;
-import ba.idrol.server.packets.PacketRemovePlayer;
+import ba.idrol.net.Game.Game;
+import ba.idrol.net.Game.LocalPlayer;
+import ba.idrol.net.Game.MpPlayer;
+import ba.idrol.net.packets.PacketAddGameObject;
+import ba.idrol.net.packets.PacketAddPlayer;
+import ba.idrol.net.packets.PacketPlayerKeyPress;
+import ba.idrol.net.packets.PacketPositionUpdatePlayer;
+import ba.idrol.net.packets.PacketRemovePlayer;
+import ba.idrol.net.packets.PacketUpdatePlayerHealth;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -39,6 +40,7 @@ public class Network extends Listener {
 		client.getKryo().register(PacketRemovePlayer.class);
 		client.getKryo().register(PacketPlayerKeyPress.class);
 		client.getKryo().register(PacketAddGameObject.class);
+		client.getKryo().register(PacketUpdatePlayerHealth.class);
 		client.addListener(this);
 		client.start();
 		try {
@@ -85,8 +87,14 @@ public class Network extends Listener {
 			if(packet.keyReleased){
 				Game.players.get(packet.id).attacking = false;
 			}else{
-				System.out.println("Setting attacking to true");
 				Game.players.get(packet.id).attacking = true;
+			}
+		}else if(o instanceof PacketUpdatePlayerHealth){
+			PacketUpdatePlayerHealth packet = (PacketUpdatePlayerHealth)o;
+			if(packet.id == c.getID()){
+				((LocalPlayer)Game.plr).health = packet.health;
+			}else{
+				Game.players.get(packet.id).health = packet.health;
 			}
 		}
 	}

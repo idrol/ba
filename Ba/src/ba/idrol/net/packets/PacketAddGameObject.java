@@ -1,4 +1,4 @@
-package ba.idrol.server.packets;
+package ba.idrol.net.packets;
 
 /*
  * Packet to add game object on client side.

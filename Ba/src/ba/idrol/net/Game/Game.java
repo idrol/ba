@@ -1,4 +1,4 @@
-package ba.idrol.Game;
+package ba.idrol.net.Game;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,19 +9,19 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.esotericsoftware.minlog.Log;
 
-import ba.idrol.Menu.Menu;
 import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
 import ba.idrol.net.Sprites;
-import ba.idrol.network.client.MpPlayerData;
-import ba.idrol.network.client.Network;
-import ba.idrol.server.packets.PacketAddGameObject;
-import ba.idrol.server.packets.PacketAddPlayer;
-import ba.idrol.server.packets.PacketPlayerKeyPress;
-import ba.idrol.server.packets.PacketPositionUpdatePlayer;
-import ba.idrol.server.packets.PacketRemovePlayer;
+import ba.idrol.net.Menu.Menu;
+import ba.idrol.net.client.MpPlayerData;
+import ba.idrol.net.client.Network;
+import ba.idrol.net.packets.PacketAddGameObject;
+import ba.idrol.net.packets.PacketAddPlayer;
+import ba.idrol.net.packets.PacketPlayerKeyPress;
+import ba.idrol.net.packets.PacketPositionUpdatePlayer;
+import ba.idrol.net.packets.PacketRemovePlayer;
 
 /*
  * Playable game itself stored in a GameComponent.

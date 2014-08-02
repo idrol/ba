@@ -1,4 +1,4 @@
-package ba.idrol.network.client;
+package ba.idrol.net.client;
 
 /*
  * TODO: find out if this is needed.

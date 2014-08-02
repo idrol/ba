@@ -1,4 +1,4 @@
-package ba.idrol.server.packets;
+package ba.idrol.net.packets;
 
 /*
  * Packet for player key presses

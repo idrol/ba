@@ -1,4 +1,4 @@
-package ba.idrol.Game;
+package ba.idrol.net.Game;
 
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Sprite;
@@ -7,6 +7,7 @@ import ba.idrol.net.Sprite;
  */
 public class Player extends GameObject{
 	
+	public float health;
 	
 	public Player(Sprite sprite, float x, float y) {
 		super(sprite, x, y);

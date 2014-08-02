@@ -2,6 +2,7 @@ package ba.idrol.net;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /*
  * Game component class.
@@ -12,7 +13,7 @@ public class GameComponent {
 	/*
 	 * Object for component.
 	 */
-	protected List<GameObject> objList = new ArrayList<GameObject>();
+	protected List<GameObject> objList = new CopyOnWriteArrayList<GameObject>();
 	
 	/*
 	 * Load objects.

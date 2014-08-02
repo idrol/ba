@@ -1,4 +1,4 @@
-package ba.idrol.server.packets;
+package ba.idrol.net.packets;
 
 /*
  * Packet for removing a player by id.
