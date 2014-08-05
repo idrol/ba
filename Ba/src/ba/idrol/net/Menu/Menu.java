@@ -4,6 +4,7 @@ import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
+import ba.idrol.net.util.TextInput;
 
 /*
  * The menu game component.
@@ -14,6 +15,7 @@ public class Menu extends GameComponent {
 	private Play playBtn;
 	private Exit exitBtn;
 	private GameObject bg, logo, cloud_1, cloud_2, cloud_3, cloud_4, cloud_5, cloud_6, cloud_7, cloud_8, cloud_9, cloud_10;
+	private TextInput playerName;
 	
 	/*
 	 * @see ba.idrol.net.GameComponent#loadObjects()
@@ -35,10 +37,11 @@ public class Menu extends GameComponent {
 		cloud_9 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
 		cloud_10 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
 		
-		logo = new GameObject(512, 128, new Sprite("res/images/menu/logo.png"), 190, 420);
-		playBtn = new Play(new Sprite("/res/images/menu/play.png"), 270, 350);
-		exitBtn = new Exit(new Sprite("/res/images/menu/exit.png"), 270, 200);
-		
+		logo = new GameObject(512, 128, new Sprite("res/images/menu/logo.png"), 190, 52);
+		playBtn = new Play(new Sprite("/res/images/menu/play.png"), 270, 186);
+		exitBtn = new Exit(new Sprite("/res/images/menu/exit.png"), 270, 336);
+		playerName = new TextInput(200, 40, 300, 270);
+		playerName.enable();
 		
 	}
 	
@@ -62,5 +65,7 @@ public class Menu extends GameComponent {
 		for(GameObject obj: objList){
 			obj.render();
 		}
+//		Font.renderWord("Idrol is the best", 100, 100, 20);
+		playerName.render();
 	}
 }

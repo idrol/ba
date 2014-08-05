@@ -87,44 +87,35 @@ public class GameObject {
 	 * Render method for object.
 	 */
 	public void render(){
-		this.texture.getTexture().bind();;
+		this.texture.getTexture().bind();
 		glPushMatrix();
 		if(this.direction == LEFT){
 			glTranslatef(this.x, this.y, 0);
 			glBegin(GL_QUADS);
 				glTexCoord2f(0, 1);
-				glVertex2f(0, 0);
-				glTexCoord2f(1, 1);
-				glVertex2f(this.width, 0);
-				glTexCoord2f(1, 0);
-				glVertex2f(this.width, this.height);
-				glTexCoord2f(0, 0);
 				glVertex2f(0, this.height);
+				glTexCoord2f(1, 1);
+				glVertex2f(this.width, this.height);
+				glTexCoord2f(1, 0);
+				glVertex2f(this.width, 0);
+				glTexCoord2f(0, 0);
+				glVertex2f(0, 0);
 			glEnd();
 		}else{
 			glTranslatef(this.x, this.y, 0);
 			glBegin(GL_QUADS);
 				glTexCoord2f(1, 1);
-				glVertex2f(0, 0);
-				glTexCoord2f(0, 1);
-				glVertex2f(this.width, 0);
-				glTexCoord2f(0, 0);
-				glVertex2f(this.width, this.height);
-				glTexCoord2f(1, 0);
 				glVertex2f(0, this.height);
+				glTexCoord2f(0, 1);
+				glVertex2f(this.width, this.height);
+				glTexCoord2f(0, 0);
+				glVertex2f(this.width, 0);
+				glTexCoord2f(1, 0);
+				glVertex2f(0, 0);
 			glEnd();
 		}
 		glPopMatrix();
 		glColor3f(1,1,1);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		glBegin(GL_QUADS);
-			glVertex2f(this.x, this.y);
-			glVertex2f(this.x+this.width, this.y);
-			glVertex2f(this.x+this.width, this.y+this.height);
-			glVertex2f(this.x, this.y+this.height);
-		glEnd();
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		
 	}
 	
 	/*

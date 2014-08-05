@@ -27,7 +27,7 @@ public class Button extends GameObject {
 	@Override
 	public void update(){
 		int x = Mouse.getX(), y = Mouse.getY();
-		if(this.x < x && this.x+this.width > x && this.y < y && this.y+this.height > y){
+		if(this.x < x && this.x+this.width > x && this.y < 600-y && this.y+this.height > 600-y){
 			this.hover = true;
 		}else{
 			this.hover = false;

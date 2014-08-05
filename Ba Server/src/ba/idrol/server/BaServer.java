@@ -1,6 +1,7 @@
 package ba.idrol.server;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -12,6 +13,7 @@ import ba.idrol.packets.PacketAddPlayer;
 import ba.idrol.packets.PacketPlayerKeyPress;
 import ba.idrol.packets.PacketPositionUpdatePlayer;
 import ba.idrol.packets.PacketRemovePlayer;
+import ba.idrol.packets.PacketUpdatePlayerHealth;
 
 import com.esotericsoftware.kryonet.Server;
 
@@ -28,6 +30,8 @@ public class BaServer{
 	public static ConcurrentMap<Integer, Player> players = new ConcurrentHashMap<Integer, Player>();
 	// Stores the world server side.
 	private static World world;
+	// Stores random generator
+	private static Random random = new Random();
 
 	
 	/*
@@ -79,6 +83,13 @@ public class BaServer{
 	}
 	
 	/*
+	 * Gets the random generator
+	 */
+	public static Random getRandom(){
+		return random;
+	}
+	
+	/*
 	 * Java main method
 	 * Creates the @World and server and adds @Network as listener to @Server
 	 */
@@ -90,6 +101,7 @@ public class BaServer{
 		server.getKryo().register(PacketRemovePlayer.class);
 		server.getKryo().register(PacketPlayerKeyPress.class);
 		server.getKryo().register(PacketAddGameObject.class);
+		server.getKryo().register(PacketUpdatePlayerHealth.class);
 		server.bind(port);
 		server.start();
 		server.addListener(new Network());

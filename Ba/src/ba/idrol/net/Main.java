@@ -59,7 +59,7 @@ public class Main {
 			deltaTime = getDelta();
 //			System.out.println("Client delta time: "+deltaTime);
 			Display.update();
-			Display.sync(120);
+			Display.sync(60);
 		}
 
 		Display.destroy();
@@ -124,7 +124,7 @@ public class Main {
 	public void initGL() {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, 800, 0, 600, 1, -1);
+		glOrtho(0, 800, 600, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);

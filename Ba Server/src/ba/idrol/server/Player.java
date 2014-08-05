@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 
 import ba.idrol.packets.PacketPlayerKeyPress;
 import ba.idrol.packets.PacketPositionUpdatePlayer;
+import ba.idrol.packets.PacketUpdatePlayerHealth;
 
 /*
  * GameObject class for player that stores all player actions and methods.
@@ -19,6 +20,10 @@ public class Player extends GameObject {
 	private static final boolean RIGHT = false, LEFT = true;
 	// Declares which values the mouse buttons uses.
 	private static final int LEFT_MOUSE_BUTTON = 0, MIDDLE_MOUSE_BUTTON = 2, RIGHT_MOUSE_BUTTON = 1;
+	// Store player health
+	private float health = 100;
+	// Stores last hit
+	private long lastHit = BaServer.getTime();
 	
 	/*
 	 * Create new player with specified size and position.
@@ -98,7 +103,7 @@ public class Player extends GameObject {
 			this.jump();
 		}
 		// If gravity enabled make the player fall.
-		// @TODO: Add so that player can fly around instead.
+		// TODO: Add so that player can fly around instead.
 		if(this.hasGravity){
 			this.fall();
 		}
@@ -131,10 +136,16 @@ public class Player extends GameObject {
 			if(!p.equals(this)){
 				if(this.direction == LEFT){
 					if(p.x <= this.x+this.width+16 &&
-					   p.x >= this.x+this.width &&
+					   p.x >= this.x &&
 					   p.y <= this.y+this.height &&
-					   p.y >= this.y){
-						System.out.println("Player "+p.id+" has been hit by: "+this.id);
+					   p.y >= this.y-1f){
+						p.hit();
+					}
+				}else if(this.direction == RIGHT){
+					if(p.x+p.width >= this.x-16 &&
+					   p.x+p.width <= this.x+this.width &&
+					   p.y <= this.y+this.height &&
+					   p.y >= this.y-1f){
 						p.hit();
 					}
 				}
@@ -142,11 +153,27 @@ public class Player extends GameObject {
 		}
 	}
 	
-	// @TODO: Implement this method and player health.
+	// TODO: Implement this method and player health.
 	private void hit() {
-		
+		if(this.lastHit+(0.7f*1000) <= BaServer.getTime()){
+			int attackDmg = BaServer.getRandom().nextInt(15);
+			this.health -= attackDmg;
+			if(this.health <= 0){
+				this.health = 0;
+				die();
+			}
+			PacketUpdatePlayerHealth packet = new PacketUpdatePlayerHealth();
+			packet.id = this.id;
+			packet.health = this.health;
+			BaServer.server.sendToAllTCP(packet);
+			this.lastHit = BaServer.getTime();
+		}
 	}
 	
+	private void die() {
+		// TODO Auto-generated method stub
+		
+	}
 	/*
 	 * Sets the vertical speed to positive which causes the player to jump.
 	 */

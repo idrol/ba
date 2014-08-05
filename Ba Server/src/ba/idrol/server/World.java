@@ -11,19 +11,19 @@ public class World {
 	 * @see ba.idrol.net.Sprites
 	 */
 	public World(){
-		ground = new GameObject(800, 10, 0, 0, "ground");
-		platform_1 = new GameObject(64, 4, 100, 60, "platform");
-		platform_2 = new GameObject(64, 4, 400, 100, "platform");
-		platform_3 = new GameObject(64, 4, 600, 60, "platform");
-		platform_4 = new GameObject(64, 4, 500, 160, "platform"); 
-		platform_5 = new GameObject(64, 4, 310, 260, "platform");
-		platform_6 = new GameObject(64, 4, 120, 360, "platform");
-		platform_7 = new GameObject(64, 4, 290, 460, "platform");
-		platform_8 = new GameObject(64, 4, 400, 560, "platform");
+		ground = new GameObject(800, 10, 0, 590, "ground");
+		platform_1 = new GameObject(64, 4, 100, 536, "platform");
+		platform_2 = new GameObject(64, 4, 400, 496, "platform");
+		platform_3 = new GameObject(64, 4, 600, 536, "platform");
+		platform_4 = new GameObject(64, 4, 500, 436, "platform"); 
+		platform_5 = new GameObject(64, 4, 310, 300, "platform");
+		platform_6 = new GameObject(64, 4, 120, 236, "platform");
+		platform_7 = new GameObject(64, 4, 290, 136, "platform");
+		platform_8 = new GameObject(64, 4, 400, 36, "platform");
 		
-		sw_1 = new GameObject(16, 16, 310, 700, "sword").enableGravity().disableCollision();
-		sw_2 = new GameObject(16, 16, 410, 700, "sword").enableGravity().disableCollision();
-		sh_1 = new GameObject(16, 16, 600, 700, "shield").enableGravity().disableCollision();
-		sh_2 = new GameObject(16, 16, 200, 700, "shield").enableGravity().disableCollision();
+		sw_1 = new GameObject(16, 16, 310, -84, "sword").enableGravity().disableCollision();
+		sw_2 = new GameObject(16, 16, 410, -84, "sword").enableGravity().disableCollision();
+		sh_1 = new GameObject(16, 16, 600, -84, "shield").enableGravity().disableCollision();
+		sh_2 = new GameObject(16, 16, 200, -84, "shield").enableGravity().disableCollision();
 	}
 }

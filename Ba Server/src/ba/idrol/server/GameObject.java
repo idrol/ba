@@ -145,13 +145,13 @@ public class GameObject {
 		if(this.vertical_speed > TERMINAL_VELOCITY){
 			this.vertical_speed = TERMINAL_VELOCITY;
 		}
-		if(this.checkForCollision(this.x, this.y + this.vertical_speed * BaServer.getDeltaTime())){
+		if(this.checkForCollision(this.x, this.y - this.vertical_speed * BaServer.getDeltaTime())){
 			if(this.vertical_speed < 0){
 				this.onGround = true;
 			}
 			this.vertical_speed = 0;	
 		}else{
-			this.y += this.vertical_speed * BaServer.getDeltaTime();
+			this.y -= this.vertical_speed * BaServer.getDeltaTime();
 			this.onGround = false;
 		}
 	}

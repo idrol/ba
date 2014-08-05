@@ -16,7 +16,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class LocalPlayer extends Player {
 	// Current sword rotation.
-	private float swordRot = 0;
+	private float swordRot = 180;
 	// Boolean variables for storing movement/actions.
 	private boolean jumping = false, moving_left = false, moving_right = false, attacking = false;
 	// Stores the sprite for the sword.
@@ -37,7 +37,7 @@ public class LocalPlayer extends Player {
 	@Override
 	public void update(){
 		super.update();
-		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
+		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT) || Keyboard.isKeyDown(Keyboard.KEY_A)){
 			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
 			packet.keyPressed = Keyboard.KEY_LEFT;
 			Network.client.sendTCP(packet);
@@ -49,7 +49,7 @@ public class LocalPlayer extends Player {
 			packet.keyReleased = true;
 			Network.client.sendTCP(packet);
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
+		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D)){
 			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
 			packet.keyPressed = Keyboard.KEY_RIGHT;
 			Network.client.sendTCP(packet);
@@ -62,7 +62,7 @@ public class LocalPlayer extends Player {
 			Network.client.sendTCP(packet);
 		}
 		
-		if (Keyboard.isKeyDown(Keyboard.KEY_UP)){
+		if (Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W)){
 			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
 			packet.keyPressed = Keyboard.KEY_UP;
 			Network.client.sendTCP(packet);
@@ -75,10 +75,10 @@ public class LocalPlayer extends Player {
 			Network.client.sendTCP(packet);
 		}
 		// Left mouse button = 0, right = 1, Midle = 2;
-		if (Mouse.isButtonDown(0)){
+		if (Mouse.isButtonDown(0) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 			this.swordRot += 0.5f*Main.getDeltaTime();
-			if(this.swordRot > 140f){
-				this.swordRot = 0;
+			if(this.swordRot > 340f){
+				this.swordRot = 180;
 			}
 			PacketPlayerKeyPress packet = new PacketPlayerKeyPress();
 			packet.keyPressed = 0;
@@ -102,43 +102,50 @@ public class LocalPlayer extends Player {
 	@Override
 	public void render(){
 		super.render();
-		System.out.println(this.x+", "+this.y);
-		glPushMatrix();
-			glTranslatef(this.x, this.y+32, 0);
-			glColor3f(1, 0, 0);
-			glBegin(GL_QUADS);
-				glVertex2f(0, 0);
-				glVertex2f(32, 0);
-				glVertex2f(32, 32);
-				glVertex2f(0, 32);
-			glEnd();
-		glPopMatrix();
-		glColor3f(1, 1, 1);
 		if(this.attacking){
 			this.sword.bind();
 			glPushMatrix();
 				glTranslatef(this.x, this.y+16, 0);
 				glTranslatef(16, 0, 0);
 				if(this.direction == LEFT){
-					glRotatef(-this.swordRot, 0, 0, 1);
-				}else{
 					glRotatef(this.swordRot, 0, 0, 1);
+				}else{
+					glRotatef(-this.swordRot, 0, 0, 1);
 				}
 				glTranslatef(-16, 0, 0);
 				glBegin(GL_QUADS);
 					glTexCoord2f(0, 1);
-					glVertex2f(0, 0);
-					glTexCoord2f(1, 1);
-					glVertex2f(this.sword.getTexture().getTextureWidth(), 0);
-					glTexCoord2f(1, 0);
-					glVertex2f(this.sword.getTexture().getTextureWidth(), this.sword.getTexture().getTextureHeight());
-					glTexCoord2f(0, 0);
 					glVertex2f(0, this.sword.getTexture().getTextureHeight());
+					glTexCoord2f(1, 1);
+					glVertex2f(this.sword.getTexture().getTextureWidth(), this.sword.getTexture().getTextureHeight());
+					glTexCoord2f(1, 0);
+					glVertex2f(this.sword.getTexture().getTextureWidth(), 0);
+					glTexCoord2f(0, 0);
+					glVertex2f(0, 0);
 				glEnd();
 			glPopMatrix();
-			glBindTexture(GL_TEXTURE_2D, 0);
 		}
-		
+		glDisable(GL_TEXTURE_2D);
+		glPushMatrix();
+			glTranslatef(this.x, this.y-14, 0);
+			glColor3f(1, 0, 0);
+			glBegin(GL_QUADS);
+				glVertex2f(0, 0);
+				glVertex2f(32, 0);
+				glVertex2f(32, 6);
+				glVertex2f(0, 6);
+			glEnd();
+			glColor3f(0, 1, 0);
+			System.out.println(this.health);
+			glBegin(GL_QUADS);
+				glVertex2f(0, 0);
+				glVertex2f(32*(this.health/100), 0);
+				glVertex2f(32*(this.health/100), 6);
+				glVertex2f(0, 6);
+			glEnd();
+		glPopMatrix();
+		glColor3f(1, 1, 1);
+		glEnable(GL_TEXTURE_2D);
 	}
 	
 	/*

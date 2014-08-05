@@ -7,7 +7,7 @@ import ba.idrol.net.Sprite;
  */
 public class Player extends GameObject{
 	
-	public float health;
+	public float health = 100;
 	
 	public Player(Sprite sprite, float x, float y) {
 		super(sprite, x, y);
