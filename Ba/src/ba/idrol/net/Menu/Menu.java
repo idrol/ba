@@ -12,7 +12,7 @@ import ba.idrol.net.util.TextInput;
 public class Menu extends GameComponent {
 	
 	// Stores Background and buttons.
-	private Play playBtn;
+	private Login loginBtn;
 	private Exit exitBtn;
 	private GameObject bg, logo, cloud_1, cloud_2, cloud_3, cloud_4, cloud_5, cloud_6, cloud_7, cloud_8, cloud_9, cloud_10;
 	public static TextInput playerName;
@@ -39,11 +39,10 @@ public class Menu extends GameComponent {
 		cloud_10 = new GameObject(cloud, Main.randomGen(800), Main.randomGen(600));
 		
 		logo = new GameObject(512, 128, new Sprite("res/images/menu/logo.png"), 190, 52);
-		playBtn = new Play(new Sprite("/res/images/menu/play.png"), 270, 186);
-		exitBtn = new Exit(new Sprite("/res/images/menu/exit.png"), 270, 376);
-		playerName = new TextInput(200, 40, 300, 270);
+		loginBtn = new Login(new Sprite("/res/images/menu/login.png"), 270, 270);
+		playerName = new TextInput(200, 40, 300, 170);
 		playerName.enable();
-		password = new TextInput(200, 40, 300, 320);
+		password = new TextInput(200, 40, 300, 220);
 		password.enable();
 	}
 	
