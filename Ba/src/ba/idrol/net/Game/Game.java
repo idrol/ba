@@ -14,7 +14,7 @@ import ba.idrol.net.GameObject;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
 import ba.idrol.net.Sprites;
-import ba.idrol.net.Menu.Menu;
+import ba.idrol.net.StartMenu.Menu;
 import ba.idrol.net.client.MpPlayerData;
 import ba.idrol.net.client.Network;
 import ba.idrol.net.packets.PacketAddGameObject;

@@ -1,4 +1,4 @@
-package ba.idrol.net.Menu;
+package ba.idrol.net.StartMenu;
 
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;

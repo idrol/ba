@@ -1,4 +1,4 @@
-package ba.idrol.net.Menu;
+package ba.idrol.net.StartMenu;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
