@@ -15,7 +15,8 @@ public class Menu extends GameComponent {
 	private Play playBtn;
 	private Exit exitBtn;
 	private GameObject bg, logo, cloud_1, cloud_2, cloud_3, cloud_4, cloud_5, cloud_6, cloud_7, cloud_8, cloud_9, cloud_10;
-	private TextInput playerName;
+	public static TextInput playerName;
+	public static TextInput password;
 	
 	/*
 	 * @see ba.idrol.net.GameComponent#loadObjects()
@@ -39,10 +40,11 @@ public class Menu extends GameComponent {
 		
 		logo = new GameObject(512, 128, new Sprite("res/images/menu/logo.png"), 190, 52);
 		playBtn = new Play(new Sprite("/res/images/menu/play.png"), 270, 186);
-		exitBtn = new Exit(new Sprite("/res/images/menu/exit.png"), 270, 336);
+		exitBtn = new Exit(new Sprite("/res/images/menu/exit.png"), 270, 376);
 		playerName = new TextInput(200, 40, 300, 270);
 		playerName.enable();
-		
+		password = new TextInput(200, 40, 300, 320);
+		password.enable();
 	}
 	
 	/*
@@ -67,5 +69,6 @@ public class Menu extends GameComponent {
 		}
 //		Font.renderWord("Idrol is the best", 100, 100, 20);
 		playerName.render();
+		password.render();
 	}
 }

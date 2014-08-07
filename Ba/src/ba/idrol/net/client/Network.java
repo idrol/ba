@@ -11,6 +11,7 @@ import ba.idrol.net.packets.PacketAddGameObject;
 import ba.idrol.net.packets.PacketAddPlayer;
 import ba.idrol.net.packets.PacketPlayerKeyPress;
 import ba.idrol.net.packets.PacketPositionUpdatePlayer;
+import ba.idrol.net.packets.PacketRegisterName;
 import ba.idrol.net.packets.PacketRemovePlayer;
 import ba.idrol.net.packets.PacketUpdatePlayerHealth;
 
@@ -30,6 +31,13 @@ public class Network extends Listener {
 	// The port to connect to.
 	private int port = 25555;
 	
+	private String name;
+	
+	public Network(String name){
+		super();
+		this.name = name;
+	}
+	
 	/*
 	 * Methode that connects the client to the server.
 	 */
@@ -43,6 +51,9 @@ public class Network extends Listener {
 		client.getKryo().register(PacketUpdatePlayerHealth.class);
 		client.addListener(this);
 		client.start();
+		PacketRegisterName plrName = new PacketRegisterName();
+		plrName.name = this.name;
+		client.sendTCP(plrName);
 		try {
 			client.connect(5000, ip, port);
 		} catch (IOException e) {

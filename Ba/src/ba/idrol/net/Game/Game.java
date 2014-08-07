@@ -39,8 +39,8 @@ public class Game extends GameComponent {
 	/*
 	 * Create the network connection object.
 	 */
-	public Game(){
-		network = new Network();
+	public Game(String name){
+		network = new Network(name);
 	}
 	
 	/*

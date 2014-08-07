@@ -3,6 +3,7 @@ package ba.idrol.net.util;
 import java.awt.Font;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -21,7 +22,7 @@ public class TextInput extends GameObject {
 	private String text = "";
 	// Time when render state of enter was changed
 	private long lastTextEnter, lastRemove;
-	private boolean renderTextEnter = true;
+	private boolean renderTextEnter = true, hover = false;
 	private Sprite textEnter;
 	private int maxLength = 20;
 	private TrueTypeFont arial;
@@ -33,6 +34,10 @@ public class TextInput extends GameObject {
 		this.lastRemove = Main.getTime();
 		Font awtFont = new Font("Arial", Font.BOLD, 24);
 		this.arial = new TrueTypeFont(awtFont, false);
+	}
+	
+	public String getText(){
+		return this.text;
 	}
 
 	@Override
@@ -51,13 +56,14 @@ public class TextInput extends GameObject {
 				glColor4f(1, 1, 1, 1);
 			glPopMatrix();
 			glEnable(GL_TEXTURE_2D);
-			this.arial.drawString(this.x, this.y, this.text, Color.white);
+			this.arial.drawString(this.x, this.y+5, this.text, Color.white);
 		}
 		if(this.isFocused){
 			if(this.renderTextEnter){
 				glPushMatrix();
-					glColor4f(0.1f, 0.1f, 0.1f, 0.6f);
+					glColor4f(1, 1f, 1f, 1f);
 					this.textEnter.bind();
+					glTranslatef(this.x+this.arial.getWidth(this.text), this.y+10, 0);
 					glBegin(GL_QUADS);
 						glTexCoord2f(0, 1);
 						glVertex2f(0, 0);
@@ -89,22 +95,17 @@ public class TextInput extends GameObject {
 			}
 			this.lastTextEnter = Main.getTime();
 		}
-		if(this.isActive){
-			if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
-				this.isFocused = true;
-			}else if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
-				this.isFocused = false;
-			}
-		}
-		if(Keyboard.next()){
-			if(this.isFocused){
+		if(this.isFocused){
+			if(Keyboard.next()){
 				// Only run for key down events
-				if(Keyboard.getEventKeyState()){
-					if(Keyboard.getEventKey() == Keyboard.KEY_BACK || Keyboard.getEventKey() == Keyboard.KEY_RETURN || Keyboard.getEventKey() == Keyboard.KEY_LSHIFT){
-					}else{
-						System.out.println(Keyboard.getKeyName(Keyboard.getEventKey())+", "+Keyboard.getEventCharacter());
-						if(!(this.text.length() >= this.maxLength)){
-							this.text += Keyboard.getEventCharacter();
+				if(this.text.length() <= 12){
+					if(Keyboard.getEventKeyState()){
+						if(Keyboard.getEventKey() == Keyboard.KEY_BACK || Keyboard.getEventKey() == Keyboard.KEY_RETURN || Keyboard.getEventKey() == Keyboard.KEY_LSHIFT){
+						}else{
+							System.out.println(Keyboard.getKeyName(Keyboard.getEventKey())+", "+Keyboard.getEventCharacter());
+							if(!(this.text.length() >= this.maxLength)){
+								this.text += Keyboard.getEventCharacter();
+							}
 						}
 					}
 				}
@@ -117,6 +118,17 @@ public class TextInput extends GameObject {
 					this.lastRemove = Main.getTime();
 				}
 			}
+		}
+		int x = Mouse.getX(), y = Mouse.getY();
+		if(this.x < x && this.x+this.width > x && this.y < 600-y && this.y+this.height > 600-y){
+			this.hover = true;
+		}else{
+			this.hover = false;
+		}
+		if(Mouse.isButtonDown(0) && this.hover){
+			this.isFocused = true;
+		}else if(Mouse.isButtonDown(0) && !this.hover){
+			this.isFocused = false;
 		}
 	}
 	
