@@ -14,17 +14,21 @@ import java.util.Map;
 
 
 
+
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.minlog.Log;
 
 public class Main extends Listener {
 		private Map<String, User> loggedInUsers = new HashMap<String, User>();
 		private Server server;
 		private int port = 25556;
 		public void start(){
+			Log.set(Log.LEVEL_DEBUG);
 			server = new Server();
 			server.getKryo().register(PacketLogin.class);
+			server.getKryo().register(PacketStatusRequest.class);
 			try {
 				server.bind(port);
 				server.start();
@@ -66,6 +70,25 @@ public class Main extends Listener {
 				} catch (NoSuchAlgorithmException e) {
 					e.printStackTrace();
 				}
+			}
+			if(o instanceof PacketStatusRequest){
+				PacketStatusRequest packet = (PacketStatusRequest)o;
+				PacketStatusRequest packet2 = new PacketStatusRequest();
+				if(loggedInUsers.containsKey(packet.userName)){
+					User user = loggedInUsers.get(packet.userName);
+					String sec_key = packet.userName+"+"+user.hash;
+					try {
+						sec_key = MD5.generateMD5(sec_key);
+						if(sec_key.equals(packet.securityHash)){
+							packet2.allowed = true;
+						}
+					} catch (NoSuchAlgorithmException e) {
+						e.printStackTrace();
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+				}
+				server.sendToTCP(c.getID(), packet2);
 			}
 		}
 		

@@ -28,6 +28,7 @@ public class Main {
 	private static int deltaTime;
 	// Stores the current active game Component.
 	public static GameComponent currentGameComponent;
+	public static User currentUser;
 	
 	/*
 	 * Starts the game.
@@ -63,6 +64,10 @@ public class Main {
 		}
 
 		Display.destroy();
+	}
+	
+	public static void setCurrentUser(User user){
+		currentUser = user;
 	}
 	
 	/*

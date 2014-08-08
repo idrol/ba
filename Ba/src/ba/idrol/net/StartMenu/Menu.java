@@ -1,9 +1,13 @@
 package ba.idrol.net.StartMenu;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
+import ba.idrol.net.Lobby.Lobby;
 import ba.idrol.net.util.TextInput;
 
 /*
@@ -69,5 +73,18 @@ public class Menu extends GameComponent {
 //		Font.renderWord("Idrol is the best", 100, 100, 20);
 		playerName.render();
 		password.render();
+	}
+
+	public static void switchToLobby() {
+		if(Main.currentUser != null){
+			try {
+				Main.currentGameComponent = new Lobby().connect();
+				Main.currentGameComponent.loadObjects();
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
