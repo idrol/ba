@@ -23,7 +23,8 @@ public class Menu extends GameComponent {
 	private GameObject bg, logo, cloud_1, cloud_2, cloud_3, cloud_4, cloud_5, cloud_6, cloud_7, cloud_8, cloud_9, cloud_10;
 	public static TextInput playerName;
 	public static TextInput password;
-	private static boolean displayFailedLoggin = false;
+	private static boolean displayError = false;
+	private static String errorMsg = "";
 	private static Text text = new Text();
 	
 	/*
@@ -79,16 +80,22 @@ public class Menu extends GameComponent {
 //		Font.renderWord("Idrol is the best", 100, 100, 20);
 		playerName.render();
 		password.render();
-		if(displayFailedLoggin){
-			text.render(250, 340, "Wrong username/password!", Color.red);
+		if(displayError){
+			text.render(250, 340, errorMsg, Color.red);
 		}
 	}
 
 	public static void switchToLobby() {
 		if(Main.currentUser != null){
 			try {
-				Main.currentGameComponent = new Lobby().connect();
-				Main.currentGameComponent.loadObjects();
+				Lobby lobby = new Lobby();
+				if(lobby.connect()){
+					Main.currentGameComponent = lobby;
+					Main.currentGameComponent.loadObjects();
+				}else{
+					errorMsg = "Could not connect to lobby server!";
+					displayError = true;
+				}
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
@@ -98,6 +105,7 @@ public class Menu extends GameComponent {
 	}
 
 	public static void displayFailedLoggin() {
-		displayFailedLoggin = true;
+		errorMsg = "Wrong username/password!";
+		displayError = true;
 	}
 }

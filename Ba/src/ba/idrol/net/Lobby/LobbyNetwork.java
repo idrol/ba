@@ -17,15 +17,17 @@ public class LobbyNetwork extends Listener {
 	private String ip = "idrol.net";
 	private int port = 25557;
 	
-	public void connect(String username, String sec_key){
+	public boolean connect(String username, String sec_key){
 		client = new Client();
 		client.addListener(this);
 		client.start();
 		try {
 			client.connect(5000, ip, port);
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	public void received(Connection c, Object o){

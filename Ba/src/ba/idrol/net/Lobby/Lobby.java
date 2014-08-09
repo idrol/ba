@@ -28,9 +28,8 @@ public class Lobby extends GameComponent{
 		}
 	}
 
-	public GameComponent connect() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public boolean connect() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		lobbyNetwork = new LobbyNetwork();
-		lobbyNetwork.connect(Main.currentUser.userName, MD5.generateMD5(Main.currentUser.userName+"+"+Main.currentUser.salt));
-		return this;
+		return lobbyNetwork.connect(Main.currentUser.userName, MD5.generateMD5(Main.currentUser.userName+"+"+Main.currentUser.salt));
 	}
 }
