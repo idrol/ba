@@ -20,10 +20,10 @@ public class TextInput extends GameObject {
 	// Stores weather this input field is focused and should listen for input
 	private boolean isFocused = false;
 	// Stores the entered string
-	private String text = "";
+	private String text = "", renderText = "";
 	// Time when render state of enter was changed
 	private long lastTextEnter, lastRemove;
-	private boolean renderTextEnter = true, hover = false;
+	private boolean renderTextEnter = true, hover = false, isPassword = false;
 	private Sprite textEnter;
 	private int maxLength = 20;
 	private TrueTypeFont arial;
@@ -59,14 +59,19 @@ public class TextInput extends GameObject {
 				glColor4f(1, 1, 1, 1);
 			glPopMatrix();
 			glEnable(GL_TEXTURE_2D);
-			this.arial.drawString(this.x, this.y+5, this.text, Color.white);
+			if(this.isPassword){
+				this.renderText = this.text.replaceAll(".", "*");
+			}else{
+				this.renderText = this.text;
+			}
+			this.arial.drawString(this.x, this.y+5, this.renderText, Color.white);
 		}
 		if(this.isFocused){
 			if(this.renderTextEnter){
 				glPushMatrix();
 					glColor4f(1, 1f, 1f, 1f);
 					this.textEnter.bind();
-					glTranslatef(this.x+this.arial.getWidth(this.text), this.y+10, 0);
+					glTranslatef(this.x+this.arial.getWidth(this.renderText), this.y+10, 0);
 					glBegin(GL_QUADS);
 						glTexCoord2f(0, 1);
 						glVertex2f(0, 0);
@@ -81,6 +86,10 @@ public class TextInput extends GameObject {
 				glPopMatrix();
 			}
 		}
+	}
+	
+	public void setPassword(){
+		this.isPassword = true;
 	}
 	
 	public void setTabAction(TextInput jumpToAction){
