@@ -10,6 +10,7 @@ import org.newdawn.slick.TrueTypeFont;
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Main;
 import ba.idrol.net.Sprite;
+import ba.idrol.net.StartMenu.Button;
 import static org.lwjgl.opengl.GL11.*;
 
 public class TextInput extends GameObject {
@@ -27,6 +28,7 @@ public class TextInput extends GameObject {
 	private int maxLength = 20;
 	private TrueTypeFont arial;
 	private TextInput jumptoObject;
+	private Button enterAction;
 	
 	public TextInput(int width, int height, float x, float y) {
 		super(width, height, x, y);
@@ -84,6 +86,9 @@ public class TextInput extends GameObject {
 	public void setTabAction(TextInput jumpToAction){
 		this.jumptoObject = jumpToAction;
 	}
+	public void setEnterAction(Button enterAction){
+		this.enterAction = enterAction;
+	}
 	
 	/*
 	 * @see ba.idrol.net.GameObject#update()
@@ -105,13 +110,17 @@ public class TextInput extends GameObject {
 				// Only run for key down events
 				if(this.text.length() <= 12){
 					if(Keyboard.getEventKeyState()){
-						if(Keyboard.getEventKey() == Keyboard.KEY_BACK || Keyboard.getEventKey() == Keyboard.KEY_RETURN || Keyboard.getEventKey() == Keyboard.KEY_LSHIFT){
+						if(Keyboard.getEventKey() == Keyboard.KEY_BACK || Keyboard.getEventKey() == Keyboard.KEY_LSHIFT){
 						}else if(Keyboard.getEventKey() == Keyboard.KEY_TAB){
 							if(this.jumptoObject != null){
 								this.isFocused = false;
 								this.jumptoObject.isFocused = true;
 							}else{
 								this.text += "    ";
+							}
+						}else if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
+							if(this.enterAction != null){
+								this.enterAction.buttonClicked();
 							}
 						}else{
 							System.out.println(Keyboard.getKeyName(Keyboard.getEventKey())+", "+Keyboard.getEventCharacter());

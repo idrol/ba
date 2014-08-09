@@ -15,7 +15,7 @@ public class Login extends Button {
 		super(sprite, x, y);
 	}
 	
-	protected void buttonClicked(){
+	public void buttonClicked(){
 		LogginNetwork login = new LogginNetwork();
 		login.connect(Menu.playerName.getText(), Menu.password.getText());
 		try {

@@ -55,6 +55,7 @@ public class Menu extends GameComponent {
 		password.enable();
 		playerName.setTabAction(password);
 		password.setTabAction(playerName);
+		password.setEnterAction(loginBtn);
 	}
 	
 	/*

@@ -13,7 +13,7 @@ public class Exit extends Button {
 	}
 	
 	@Override
-	protected void buttonClicked(){
+	public void buttonClicked(){
 		Main.destroy(Main.SHUTDOWN); // Cleans game
 	}
 	

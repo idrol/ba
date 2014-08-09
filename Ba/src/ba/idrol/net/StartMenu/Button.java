@@ -37,7 +37,7 @@ public class Button extends GameObject {
 		}
 	}
 	
-	protected void buttonClicked(){
+	public void buttonClicked(){
 		
 	}
 
