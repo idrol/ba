@@ -27,6 +27,8 @@ public class Login extends Button {
 				user.salt = packet.saltHash;
 				Main.setCurrentUser(user);
 				Menu.switchToLobby();
+			}else{
+				Menu.displayFailedLoggin();
 			}
 			login.disconnect();
 		} catch (InterruptedException e) {

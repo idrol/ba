@@ -3,6 +3,8 @@ package ba.idrol.net.StartMenu;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
+import org.newdawn.slick.Color;
+
 import ba.idrol.net.GameComponent;
 import ba.idrol.net.GameObject;
 import ba.idrol.net.Main;
@@ -21,6 +23,8 @@ public class Menu extends GameComponent {
 	private GameObject bg, logo, cloud_1, cloud_2, cloud_3, cloud_4, cloud_5, cloud_6, cloud_7, cloud_8, cloud_9, cloud_10;
 	public static TextInput playerName;
 	public static TextInput password;
+	private static boolean displayFailedLoggin = false;
+	private static Text text = new Text();
 	
 	/*
 	 * @see ba.idrol.net.GameComponent#loadObjects()
@@ -48,6 +52,8 @@ public class Menu extends GameComponent {
 		playerName.enable();
 		password = new TextInput(200, 40, 300, 220);
 		password.enable();
+		playerName.setTabAction(password);
+		password.setTabAction(playerName);
 	}
 	
 	/*
@@ -73,6 +79,9 @@ public class Menu extends GameComponent {
 //		Font.renderWord("Idrol is the best", 100, 100, 20);
 		playerName.render();
 		password.render();
+		if(displayFailedLoggin){
+			text.render(250, 340, "Wrong username/password!", Color.red);
+		}
 	}
 
 	public static void switchToLobby() {
@@ -86,5 +95,9 @@ public class Menu extends GameComponent {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static void displayFailedLoggin() {
+		displayFailedLoggin = true;
 	}
 }

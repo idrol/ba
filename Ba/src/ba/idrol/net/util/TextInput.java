@@ -26,6 +26,7 @@ public class TextInput extends GameObject {
 	private Sprite textEnter;
 	private int maxLength = 20;
 	private TrueTypeFont arial;
+	private TextInput jumptoObject;
 	
 	public TextInput(int width, int height, float x, float y) {
 		super(width, height, x, y);
@@ -80,6 +81,10 @@ public class TextInput extends GameObject {
 		}
 	}
 	
+	public void setTabAction(TextInput jumpToAction){
+		this.jumptoObject = jumpToAction;
+	}
+	
 	/*
 	 * @see ba.idrol.net.GameObject#update()
 	 * 
@@ -101,6 +106,13 @@ public class TextInput extends GameObject {
 				if(this.text.length() <= 12){
 					if(Keyboard.getEventKeyState()){
 						if(Keyboard.getEventKey() == Keyboard.KEY_BACK || Keyboard.getEventKey() == Keyboard.KEY_RETURN || Keyboard.getEventKey() == Keyboard.KEY_LSHIFT){
+						}else if(Keyboard.getEventKey() == Keyboard.KEY_TAB){
+							if(this.jumptoObject != null){
+								this.isFocused = false;
+								this.jumptoObject.isFocused = true;
+							}else{
+								this.text += "    ";
+							}
 						}else{
 							System.out.println(Keyboard.getKeyName(Keyboard.getEventKey())+", "+Keyboard.getEventCharacter());
 							if(!(this.text.length() >= this.maxLength)){

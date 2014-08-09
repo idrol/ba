@@ -13,6 +13,8 @@ import ba.idrol.net.util.MD5;
 public class Lobby extends GameComponent{
 	private GameObject inv, chat;
 	private LobbyNetwork lobbyNetwork;
+	private boolean status = OFFLINE;
+	public static final boolean OFFLINE = false, CONNECTED = true;
 	@Override
 	public void loadObjects(){
 		inv = new MenuItem(10, 10, 350, 400, Color.gray);
