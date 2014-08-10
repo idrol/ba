@@ -25,6 +25,7 @@ public class Login extends Button {
 				User user = new User();
 				user.userName = packet.userName;
 				user.salt = packet.saltHash;
+				System.out.println(user.toString());
 				Main.setCurrentUser(user);
 				Menu.switchToLobby();
 			}else{
