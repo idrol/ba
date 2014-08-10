@@ -20,12 +20,12 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
 
-public class Main extends Listener {
+public class LogginServerMain extends Listener {
 		private Map<String, User> loggedInUsers = new HashMap<String, User>();
 		private Server server;
 		private int port = 25556;
+		private final String serverTag = "[Server]: ", recvTag = "[Received]: ", sentTag = "[Sent]: ";
 		public void start(){
-			Log.set(Log.LEVEL_DEBUG);
 			server = new Server();
 			server.getKryo().register(PacketLogin.class);
 			server.getKryo().register(PacketStatusRequest.class);
@@ -33,6 +33,7 @@ public class Main extends Listener {
 				server.bind(port);
 				server.start();
 				server.addListener(this);
+				Log.info("Loggin Server", "Server has started!");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -55,11 +56,13 @@ public class Main extends Listener {
 					isLoggedIn = isLoggedIn.replace("\n", "").replace("\r", "");
 					PacketLogin packet2 = new PacketLogin();
 					if(isLoggedIn.equals("true")){
-						System.out.println("User: "+packet.userName+" logged in!");
+						Log.info("Loggin Server", "User: "+packet.userName+" logged in!");
 						packet2.isLoggedIn = true;
+						packet2.userName = packet.userName;
 						User user = new User();
 						user.username = packet.userName;
 						user.hash = MD5.generateMD5(Long.toString(System.nanoTime()/1000000));
+						packet2.saltHash = user.hash;
 						loggedInUsers.put(packet.userName, user);
 					}else{
 						packet2.isLoggedIn = false;
@@ -74,9 +77,11 @@ public class Main extends Listener {
 			if(o instanceof PacketStatusRequest){
 				PacketStatusRequest packet = (PacketStatusRequest)o;
 				PacketStatusRequest packet2 = new PacketStatusRequest();
+				packet2.userName = packet.userName;
+				String sec_key = "";
 				if(loggedInUsers.containsKey(packet.userName)){
 					User user = loggedInUsers.get(packet.userName);
-					String sec_key = packet.userName+"+"+user.hash;
+					sec_key = packet.userName+"+"+user.hash;
 					try {
 						sec_key = MD5.generateMD5(sec_key);
 						if(sec_key.equals(packet.securityHash)){
@@ -87,6 +92,11 @@ public class Main extends Listener {
 					} catch (UnsupportedEncodingException e) {
 						e.printStackTrace();
 					}
+				}
+				if(packet2.allowed){
+					Log.info("Loggin Server", "Allowing: "+packet.userName); 
+				}else{
+					Log.info("Loggin Server", "Denying: "+packet.userName); 
 				}
 				server.sendToTCP(c.getID(), packet2);
 			}
@@ -102,7 +112,7 @@ public class Main extends Listener {
 		}
 		
 		public static void main(String[] args){
-			new Main().start();
+			new LogginServerMain().start();
 		}
 
 }
